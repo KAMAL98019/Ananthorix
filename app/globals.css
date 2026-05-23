@@ -10,6 +10,25 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Custom Animations */
+  --animate-pulse-slow: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-fast: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float-slow: floatStars 20s linear infinite;
+  --animate-multiverse-float: multiverseFloat 15s ease-in-out infinite;
+
+  @keyframes floatStars {
+    0% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-20px) translateX(10px); }
+    100% { transform: translateY(0px) translateX(0px); }
+  }
+
+  @keyframes multiverseFloat {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+    25% { transform: translate(10px, -15px) rotate(1deg) scale(1.02); }
+    50% { transform: translate(-5px, -25px) rotate(-1deg) scale(1); }
+    75% { transform: translate(-15px, -10px) rotate(0.5deg) scale(0.98); }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +39,22 @@
 }
 
 body {
-  background: var(--background);
+  background: #07152D;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.animate-wave {
+  animation: wave-move 18s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes wave-move {
+  0%, 100% {
+    transform: translateX(0%) translateY(0%) skewX(0deg);
+  }
+
+  50% {
+    transform: translateX(-10%) translateY(4%) skewX(-2deg);
+  }
 }
