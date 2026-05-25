@@ -81,11 +81,10 @@ export default function HeroBanner() {
             <span className="text-[#3b82f6] drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]">Technology</span>
           </h1>
         </FadeIn>
-        
+
         <FadeIn direction="up" delay={200}>
-          <p className="z-10 mt-2 max-w-3xl text-sm sm:text-base md:text-lg leading-relaxed text-slate-300">
-            Engineering infinite possibilities with enterprise-grade AI, cloud
-            infrastructure, and custom software solutions tailored for the futuristic era.
+          <p className="z-10 mt-2 max-w-4xl text-sm sm:text-base md:text-lg leading-relaxed text-slate-300">
+            Anantorix Technologies is a leading <strong className="text-white">Custom Software Development Company</strong> and <strong className="text-white">AI Development Company India</strong>, empowering enterprise growth through premium <strong className="text-white">SaaS Product Development</strong>, high-performance <strong className="text-white">React.js Development Services</strong>, cross-platform <strong className="text-white">Flutter Mobile App Development</strong>, and next-generation <strong className="text-white">IoT + AI Solutions</strong> built for the digital-centric era.
           </p>
         </FadeIn>
 
@@ -94,12 +93,12 @@ export default function HeroBanner() {
             <Link href="/contact" className="inline-flex rounded-lg bg-[#187BDD] px-8 py-4 text-base font-bold text-white shadow-[0_0_20px_rgba(24,123,221,0.3)] transition-all hover:bg-[#156bbb] hover:shadow-[0_0_30px_rgba(24,123,221,0.5)] focus:outline-none focus:ring-2 focus:ring-[#A6C8FF] focus:ring-offset-2">
               Get Started
             </Link>
-            <a
+            {/* <a
               href="#"
               className="inline-flex rounded-lg border border-slate-400 px-8 py-3.5 text-sm font-medium text-white transition hover:bg-white/10"
             >
               Book Consultation
-            </a>
+            </a> */}
           </div>
         </FadeIn>
       </div>

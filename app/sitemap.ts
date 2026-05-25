@@ -37,7 +37,7 @@ function getRoutes(dir: string, currentRoute: string = ''): string[] {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ananthorix.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.anantorix.com';
   
   const appDir = path.join(process.cwd(), 'app');
   const routes = getRoutes(appDir);
