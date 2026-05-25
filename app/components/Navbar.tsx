@@ -29,15 +29,17 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-[#07152D]/90 backdrop-blur-md border-b border-white/5">
       <div className="flex items-center justify-between px-6 sm:px-10 py-4 sm:py-6 max-w-7xl mx-auto">
-        <Image
-          src="/images/companylogo.png"
-          alt="Logo"
-          width={140}
-          height={140}
-          loading="eager"
-          fetchPriority="high"
-          className="h-auto sm:w-[180px]"
-        />
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/images/companylogo.png"
+            alt="Logo"
+            width={140}
+            height={140}
+            loading="eager"
+            fetchPriority="high"
+            className="h-auto sm:w-[180px]"
+          />
+        </Link>
         
         {/* Hide links on mobile, show on md and up */}
         <ul className="text-16 hidden md:flex items-center space-x-8 font-bold text-[#C1C6D5]">
