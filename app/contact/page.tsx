@@ -4,10 +4,6 @@ import { useState } from "react";
 import FadeIn from "../components/FadeIn";
 import { Send, CheckCircle, AlertCircle, Mail, MapPin, Phone } from "lucide-react";
 
-export const metadata = {
-  title: "Contact",
-  alternates: { canonical: "/contact" },
-};
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
