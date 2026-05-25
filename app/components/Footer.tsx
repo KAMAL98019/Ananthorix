@@ -7,10 +7,10 @@ export default function Footer() {
     <footer className="bg-[#050b14] pt-20 pb-8 border-t border-white/5">
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-20">
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-8 mb-16">
 
           {/* Brand Column */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center text-center">
             <Image
               src="/images/companylogo.png"
               alt="ANANTORIX Logo"
@@ -24,7 +24,7 @@ export default function Footer() {
           </div>
 
           {/* Services Column */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center text-center">
             <h3 className="text-white font-semibold mb-6">Services</h3>
             <ul className="flex flex-col space-y-4">
               <li><Link href="/services/ui-ux-design" className="text-slate-400 hover:text-white transition-colors text-sm">UI/UX Design</Link></li>
@@ -37,7 +37,7 @@ export default function Footer() {
           </div>
 
           {/* Company Column */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-center text-center">
             <h3 className="text-white font-semibold mb-6">Company</h3>
             <ul className="flex flex-col space-y-4">
               <li><Link href="/about" className="text-slate-400 hover:text-white transition-colors text-sm">About Us</Link></li>
@@ -47,7 +47,7 @@ export default function Footer() {
           </div>
 
           {/* Connect Column */}
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <h3 className="text-white font-semibold mb-6">Connect</h3>
             <div className="flex space-x-4">
               <a href="#" aria-label="Visit our website" className="flex items-center justify-center w-10 h-10 rounded-full border border-slate-700 text-slate-400 hover:bg-white hover:text-[#050b14] transition-all">
@@ -60,7 +60,7 @@ export default function Footer() {
                 <AtSign className="w-4 h-4" aria-hidden="true" />
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Bar */}
