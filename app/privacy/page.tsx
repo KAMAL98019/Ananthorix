@@ -1,5 +1,10 @@
 import FadeIn from "../components/FadeIn";
 
+export const metadata = {
+  title: "Privacy",
+  alternates: { canonical: "/privacy" },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <main className="min-h-screen bg-[#030b1a] text-white pt-24 pb-20 px-4 sm:px-6 lg:px-10 relative">

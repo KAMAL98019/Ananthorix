@@ -9,6 +9,7 @@ const MobileAppsApproach = dynamic(() => import("../../components/mobile-apps/Mo
 const MobileAppsCTA = dynamic(() => import("../../components/mobile-apps/MobileAppsCTA"));
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services/mobile-apps" },
   title: "Mobile App Development | Anantorix Technologies",
   description: "High-performance iOS and Android app development, cross-platform mobile apps, and native mobile solutions.",
   keywords: "iOS and Android app development, cross-platform mobile apps, high-performance mobile solutions, native app development",

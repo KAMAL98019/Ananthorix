@@ -6,6 +6,7 @@ import UiUxApproach from "../../components/ui-ux-design/UiUxApproach";
 import UiUxCTA from "../../components/ui-ux-design/UiUxCTA";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services/ui-ux-design" },
   title: "Enterprise UI/UX Design | Anantorix Technologies",
   description: "Anantorix is a premier user experience agency offering enterprise UI/UX design, intuitive interface design, and user-centric software design.",
   keywords: "Enterprise UI/UX design, user experience agency, intuitive interface design, user-centric software design",

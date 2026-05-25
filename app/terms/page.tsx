@@ -1,5 +1,10 @@
 import FadeIn from "../components/FadeIn";
 
+export const metadata = {
+  title: "Terms",
+  alternates: { canonical: "/terms" },
+};
+
 export default function TermsOfServicePage() {
   return (
     <main className="min-h-screen bg-[#030b1a] text-white pt-24 pb-20 px-4 sm:px-6 lg:px-10 relative">

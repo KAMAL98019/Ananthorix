@@ -9,6 +9,7 @@ const GenAiApproach = dynamic(() => import("../../components/gen-ai/GenAiApproac
 const GenAiCTA = dynamic(() => import("../../components/gen-ai/GenAiCTA"));
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services/generative-ai" },
   title: "Generative AI Development | Anantorix Technologies",
   description: "Enterprise AI integration, custom LLM fine-tuning, RAG, and machine learning solutions.",
   keywords: "Generative AI development, custom AI model training, enterprise AI integration, LLM development, machine learning solutions",

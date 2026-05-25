@@ -16,8 +16,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ananthorix",
-  description: "Ananthorix - Intelligent Technology and Infrastructure",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://www.ananthorix.com"),
+  title: {
+    default: "Ananthorix - Intelligent Technology and Infrastructure",
+    template: "%s | Ananthorix",
+  },
+  description: "Ananthorix is an intelligent technology and infrastructure company. We engineer infinite possibilities with enterprise software solutions tailored for the digital-centric era.",
+  keywords: ["Ananthorix", "Software Development", "Generative AI", "Enterprise Solutions", "Desktop Applications", "UI/UX Design", "Custom Software"],
+  authors: [{ name: "Ananthorix" }],
+  creator: "Ananthorix",
+  publisher: "Ananthorix",
+  robots: {
+    index: true,
+    follow: true,
+  },
   manifest: "/site.webmanifest",
 };
 

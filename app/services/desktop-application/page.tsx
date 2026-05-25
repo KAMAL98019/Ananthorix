@@ -9,6 +9,7 @@ const DesktopAppApproach = dynamic(() => import("../../components/desktop-applic
 const DesktopAppCTA = dynamic(() => import("../../components/desktop-application/DesktopAppCTA"));
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services/desktop-application" },
   title: "Desktop Application Development | Anantorix Technologies",
   description: "Cross-platform desktop software for macOS, Windows, and Linux. Enterprise desktop solutions.",
   keywords: "Desktop app development, cross-platform desktop software, macOS and Windows app development, enterprise desktop solutions",

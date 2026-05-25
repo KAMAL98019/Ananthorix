@@ -10,6 +10,7 @@ const CustomSoftwareApproach = dynamic(() => import("../../components/custom-sof
 const CustomSoftwareCTA = dynamic(() => import("../../components/custom-software/CustomSoftwareCTA"));
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services/custom-software" },
   title: "Custom Software Development | Anantorix Technologies",
   description: "Engineering bespoke software solutions, robust enterprise applications, and scalable architecture for modern businesses.",
   keywords: "Custom software development, enterprise software solutions, scalable architecture, bespoke software engineering",

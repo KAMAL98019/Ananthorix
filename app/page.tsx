@@ -8,6 +8,11 @@ const PathToInfinity = dynamic(() => import("./components/PathToInfinity"));
 const EngineeredSection = dynamic(() => import("./components/EngineeredSection"));
 const CallToAction = dynamic(() => import("./components/CallToAction"));
 
+export const metadata = {
+  title: "Home",
+  alternates: { canonical: "/" },
+};
+
 export default function Home() {
   return (
     <main

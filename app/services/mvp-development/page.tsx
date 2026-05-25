@@ -9,6 +9,7 @@ const MvpApproach = dynamic(() => import("../../components/mvp-development/MvpAp
 const MvpCTA = dynamic(() => import("../../components/mvp-development/MvpCTA"));
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services/mvp-development" },
   title: "MVP Development | Anantorix Technologies",
   description: "Rapid prototyping, startup software development, and agile MVP building to validate your product idea fast.",
   keywords: "MVP development services, rapid prototyping, startup software development, validate product idea, agile MVP builder",

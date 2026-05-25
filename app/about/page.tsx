@@ -2,6 +2,11 @@ import FadeIn from "../components/FadeIn";
 import Image from "next/image";
 import { Zap, ShieldCheck, Cpu, Globe, Infinity, Box } from "lucide-react";
 
+export const metadata = {
+  title: "About",
+  alternates: { canonical: "/about" },
+};
+
 export default function AboutPage() {
   const values = [
     {
