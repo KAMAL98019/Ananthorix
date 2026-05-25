@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "Anantorix Technologies",
     images: [
       {
-        url: "/logo.png",
+        url: "/socialicon.png",
         width: 1200,
         height: 630,
         alt: "Anantorix Technologies Logo",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Anantorix Technologies",
     description: "AI, Software, Mobile Apps & IoT Solutions",
-    images: ["/logo.png"],
+    images: ["/socialicon.png"],
   },
   manifest: "/site.webmanifest",
 };
