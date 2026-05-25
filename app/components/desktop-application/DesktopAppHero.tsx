@@ -1,6 +1,7 @@
 "use client";
 
 import FadeIn from "../FadeIn";
+import Image from "next/image";
 
 export default function DesktopAppHero() {
   return (
@@ -21,16 +22,18 @@ export default function DesktopAppHero() {
             </p>
           </FadeIn>
 
-          {/* Image Placeholder */}
+          {/* Hero Image */}
           <FadeIn direction="left" delay={200}>
-            {/* Note: The aspect ratio is strictly set here to prevent Layout Shifts (LCP/CLS optimization) */}
-            <div className="w-full aspect-[4/3] sm:aspect-video lg:aspect-[4/3] bg-[#0b1a30] rounded-3xl border border-white/10 shadow-[0_0_40px_rgba(24,123,221,0.15)] flex flex-col items-center justify-center text-slate-500 overflow-hidden relative group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#187BDD]/5 to-transparent"></div>
-              {/* Note: When adding Next.js <Image>, ensure you set priority={true} and sizes prop on this Hero image for optimal LCP! */}
-              <svg className="w-16 h-16 mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="text-sm font-medium tracking-widest uppercase">Hero Image Placeholder</span>
+            <div className="w-full aspect-[4/3] sm:aspect-video lg:aspect-[4/3] rounded-3xl border border-white/10 shadow-[0_0_40px_rgba(24,123,221,0.15)] overflow-hidden relative group">
+              <Image 
+                src="/images/services/desktop/hero.webp"
+                alt="Desktop App Development"
+                fill
+                priority
+                unoptimized
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#187BDD]/20 to-transparent mix-blend-overlay"></div>
             </div>
           </FadeIn>
 
