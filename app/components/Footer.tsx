@@ -30,7 +30,7 @@ export default function Footer() {
               <li><Link href="/services/ui-ux-design" className="text-slate-400 hover:text-white transition-colors text-sm">UI/UX Design</Link></li>
               <li><Link href="/services/custom-software" className="text-slate-400 hover:text-white transition-colors text-sm">Custom Software</Link></li>
               <li><Link href="/services/mobile-apps" className="text-slate-400 hover:text-white transition-colors text-sm">Mobile Apps</Link></li>
-              <li><Link href="/services/generative-ai" className="text-slate-400 hover:text-white transition-colors text-sm">Generative AI Development</Link></li>
+              {/* <li><Link href="/services/generative-ai" className="text-slate-400 hover:text-white transition-colors text-sm">Generative AI Development</Link></li> */}
               <li><Link href="/services/mvp-development" className="text-slate-400 hover:text-white transition-colors text-sm">MVP development</Link></li>
               <li><Link href="/services/desktop-application" className="text-slate-400 hover:text-white transition-colors text-sm">Desktop application</Link></li>
             </ul>

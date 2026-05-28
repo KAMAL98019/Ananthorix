@@ -34,12 +34,12 @@ export default function CorePhilosophy() {
           </FadeIn>
 
           {/* Floating Glassmorphic Card */}
-          <div className="absolute -bottom-8 sm:-bottom-10 right-4 sm:-right-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-7 shadow-2xl">
+          {/* <div className="absolute -bottom-8 sm:-bottom-10 right-4 sm:-right-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5 sm:p-7 shadow-2xl">
             <h3 className="text-4xl sm:text-5xl font-bold text-white mb-1">150+</h3>
             <p className="text-xs sm:text-sm text-slate-300 font-medium tracking-wide">
               Architects & Engineers
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Right Column: Text Content */}

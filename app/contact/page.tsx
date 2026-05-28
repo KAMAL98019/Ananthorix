@@ -81,7 +81,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">Email Us</h3>
-                  <a href="mailto:hello@anantorix.com" className="text-[#C1C6D5] hover:text-[#A6C8FF] transition-colors">hello@anantorix.com</a>
+                  <a href="mailto:anantorix@gmail.com" className="text-[#C1C6D5] hover:text-[#A6C8FF] transition-colors">anantorix@gmail.com</a>
                 </div>
               </div>
 
@@ -90,8 +90,8 @@ export default function ContactPage() {
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-1">Headquarters</h3>
-                  <p className="text-[#C1C6D5]">123 Innovation Drive, Tech District<br />San Francisco, CA 94103</p>
+                  <h3 className="text-lg font-bold text-white mb-1">Location</h3>
+                  <p className="text-[#C1C6D5]">Tiruchengode, Tamil nadu</p>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">Call Us</h3>
-                  <a href="tel:+18001234567" className="text-[#C1C6D5] hover:text-[#A6C8FF] transition-colors">+1 (800) 123-4567</a>
+                  <a href="tel:+919842744566" className="text-[#C1C6D5] hover:text-[#A6C8FF] transition-colors">9842744566</a>
                 </div>
               </div>
             </div>

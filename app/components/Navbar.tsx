@@ -17,7 +17,7 @@ const servicesList = [
   { icon: PenTool, href: "/services/ui-ux-design", label: "UI/UX Design", description: "Crafting intuitive and engaging user experiences." },
   { icon: Code, href: "/services/custom-software", label: "Custom Software", description: "Tailor-made software solutions for your enterprise." },
   { icon: Smartphone, href: "/services/mobile-apps", label: "Mobile Apps", description: "High-performance mobile applications." },
-  { icon: Bot, href: "/services/generative-ai", label: "Generative AI Development", description: "Cutting-edge AI integration and model training." },
+  // { icon: Bot, href: "/services/generative-ai", label: "Generative AI Development", description: "Cutting-edge AI integration and model training." },
   { icon: Zap, href: "/services/mvp-development", label: "MVP development", description: "Rapid prototyping to validate your product." },
   { icon: Monitor, href: "/services/desktop-application", label: "Desktop application", description: "Robust cross-platform desktop software." }
 ];
