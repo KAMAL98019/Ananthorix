@@ -94,20 +94,23 @@ export default function LiveChat({
   return (
     <div ref={ref} className={cx("overflow-hidden rounded-panel border border-line bg-surface-1 shadow-raised", className)}>
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 border-b border-line bg-canvas px-5 py-4">
+      <div className="flex items-center justify-between gap-3 border-b border-line bg-canvas px-4 py-4 sm:gap-4 sm:px-5">
         <div className="flex min-w-0 items-center gap-3">
           <span aria-hidden="true" className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple to-deep-blue font-mono text-[12px] font-semibold text-starlight">
             {initials}
             <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2 border-canvas bg-[#22C55E]" />
           </span>
           <div className="min-w-0">
-            <p className="truncate font-semibold text-fg-primary">{title}</p>
+            <p className="truncate text-sm font-semibold text-fg-primary sm:text-base">{title}</p>
             <p aria-hidden="true" className="text-[12px] text-fg-secondary">
               {typing ? <span className="text-purple">typing…</span> : "Online"}
             </p>
           </div>
         </div>
-        <p className="shrink-0 rounded-tag bg-gold/20 px-2 py-1 font-mono text-[11px] font-semibold text-fg-primary">ILLUSTRATIVE SCRIPT</p>
+        <p className="shrink-0 rounded-tag bg-gold/20 px-2 py-1 font-mono text-[10px] font-semibold text-fg-primary sm:text-[11px]">
+          <span className="sm:hidden">ILLUSTRATIVE</span>
+          <span className="hidden sm:inline">ILLUSTRATIVE SCRIPT</span>
+        </p>
       </div>
 
       {/* Messages */}
