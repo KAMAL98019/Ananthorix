@@ -1,37 +1,41 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import LayoutContact from "./components/LayoutContact";
+import SiteHeader from "./components/site/SiteHeader";
+import SiteFooter from "./components/site/SiteFooter";
+import { MotionProvider } from "./components/motion/MotionProvider";
+import ScrollProgress from "./components/motion/ScrollProgress";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Typography per the Luminous White brief: Manrope headings, Inter body/UI, JetBrains Mono data labels.
+// next/font self-hosts these at build time.
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Mono is only used for small labels, so it is not preloaded: it stays off the critical path for the first render.
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://www.anantorix.com"),
   title: {
-    default: "Anantorix Technologies | AI, Software & Mobile App Development Company",
+    default: "Anantorix Technologies | Intelligent digital systems for modern businesses",
     template: "%s | Anantorix Technologies",
   },
-  description: "Anantorix Technologies provides AI solutions, custom software development, mobile app development, IoT solutions, SaaS products, and enterprise applications.",
-  keywords: [
-    "AI development company",
-    "SaaS development India",
-    "React development",
-    "Node.js development",
-    "Flutter app development",
-    "IoT solutions",
-    "custom software development"
-  ],
+  description: "Anantorix builds intelligent digital systems for modern businesses.",
   authors: [{ name: "Anantorix Technologies" }],
   creator: "Anantorix Technologies",
   publisher: "Anantorix Technologies",
@@ -41,7 +45,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Anantorix Technologies",
-    description: "AI, Software, Mobile Apps & IoT Solutions",
+    description: "Anantorix builds intelligent digital systems for modern businesses.",
     url: "https://www.anantorix.com",
     siteName: "Anantorix Technologies",
     images: [
@@ -57,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Anantorix Technologies",
-    description: "AI, Software, Mobile Apps & IoT Solutions",
+    description: "Anantorix builds intelligent digital systems for modern businesses.",
     images: ["/socialicon.png"],
   },
   manifest: "/site.webmanifest",
@@ -71,10 +75,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased scroll-smooth`}
     >
-      {/* Add suppressHydrationWarning to the body tag */}
-      <body className="flex min-h-full flex-col bg-[#07152D]" suppressHydrationWarning>
+      <body className="flex min-h-full flex-col bg-canvas text-fg-primary" suppressHydrationWarning>
+        <MotionProvider>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <ScrollProgress />
+
         {/* Google Analytics (GA4) */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>
@@ -108,12 +117,12 @@ export default function RootLayout({
           </Script>
         )}
 
-        <Navbar />
-        <main className="flex-grow">
+        <SiteHeader />
+        <main id="main-content" tabIndex={-1} className="flex-grow focus:outline-none">
           {children}
         </main>
-        <LayoutContact />
-        <Footer />
+        <SiteFooter />
+        </MotionProvider>
       </body>
     </html>
   );
