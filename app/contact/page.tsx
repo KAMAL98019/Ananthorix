@@ -1,225 +1,130 @@
-"use client";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
+import Breadcrumbs from "../components/site/blocks/Breadcrumbs";
+import JsonLd from "../components/site/blocks/JsonLd";
+import CosmicBanner, { CosmicEyebrow, cosmicPrimary, cosmicSecondary } from "../components/site/blocks/CosmicBanner";
+import Container from "../components/layout/Container";
+import Section from "../components/layout/Section";
+import { COMPANY_CONTACT } from "../content/contact";
+import { breadcrumbJsonLd, pageMetadata } from "../lib/seo";
 
-import { useState } from "react";
-import FadeIn from "../components/FadeIn";
-import { Send, CheckCircle, AlertCircle, Mail, MapPin, Phone } from "lucide-react";
+export const metadata: Metadata = pageMetadata({
+  title: "Contact",
+  description: "Contact Anantorix Technologies by email or phone, or share your project brief.",
+  path: "/contact",
+});
 
+const breadcrumbs = [
+  { name: "Home", path: "/" },
+  { name: "Contact", path: "/contact" },
+];
+
+const channels = [
+  {
+    id: "call",
+    icon: Phone,
+    title: "Call us",
+    body: "Talk through your project directly. Calls are the quickest way to book a conversation.",
+    value: COMPANY_CONTACT.phoneDisplay,
+    href: COMPANY_CONTACT.phoneHref,
+  },
+  {
+    id: "email",
+    icon: Mail,
+    title: "Email",
+    body: "Send a short note or attach what you have. We read every message.",
+    value: COMPANY_CONTACT.email,
+    href: `mailto:${COMPANY_CONTACT.email}`,
+  },
+  {
+    id: "location",
+    icon: MapPin,
+    title: "Location",
+    body: `Working with businesses across ${COMPANY_CONTACT.market}.`,
+    value: COMPANY_CONTACT.locationDisplay,
+    href: null,
+  },
+];
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) throw new Error("Failed to send message");
-
-      setStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-
-      // Reset success state after 5 seconds
-      setTimeout(() => setStatus("idle"), 5000);
-    } catch (error) {
-      console.error(error);
-      setStatus("error");
-
-      // Reset error state after 5 seconds
-      setTimeout(() => setStatus("idle"), 5000);
-    }
-  };
-
   return (
-    <main className="min-h-screen bg-[#030b1a] py-20 px-4 sm:px-6 lg:px-10 overflow-hidden relative">
-      {/* Background glow effects */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#187BDD] rounded-full blur-[200px] opacity-10 pointer-events-none"></div>
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#3b82f6] rounded-full blur-[200px] opacity-5 pointer-events-none"></div>
+    <>
+      <JsonLd data={breadcrumbJsonLd(breadcrumbs)} />
+      <Container className="pt-8">
+        <Breadcrumbs items={breadcrumbs} />
+      </Container>
 
-      <div className="max-w-7xl mx-auto relative z-10 pt-10">
-
-        {/* Header section */}
-        <FadeIn direction="up" className="text-center max-w-3xl mx-auto mb-16 sm:mb-24 flex flex-col items-center">
-          <span className="text-[#A6C8FF] text-sm sm:text-base font-bold tracking-[0.2em] uppercase mb-4 drop-shadow-[0_0_8px_rgba(166,200,255,0.6)] block">
-            Get In Touch
-          </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
-            Let's Engineer Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#187BDD]">Future</span>
-          </h1>
-          <p className="text-[#C1C6D5] text-base sm:text-lg leading-relaxed">
-            Whether you have a specific project in mind or simply want to explore how our cutting-edge technologies can accelerate your growth, we're ready to listen.
-          </p>
-        </FadeIn>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-
-          {/* Left Column: Contact Information */}
-          <FadeIn direction="right" delay={200} className="flex flex-col space-y-12">
-
-            {/* Contact Details Cards */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-6 p-6 rounded-2xl bg-[#07152D] border border-white/5 shadow-xl hover:border-white/10 transition-colors">
-                <div className="flex shrink-0 items-center justify-center w-14 h-14 rounded-full bg-[#187BDD]/10 text-[#187BDD]">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1">Email Us</h3>
-                  <a href="mailto:anantorix@gmail.com" className="text-[#C1C6D5] hover:text-[#A6C8FF] transition-colors">anantorix@gmail.com</a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 p-6 rounded-2xl bg-[#07152D] border border-white/5 shadow-xl hover:border-white/10 transition-colors">
-                <div className="flex shrink-0 items-center justify-center w-14 h-14 rounded-full bg-[#187BDD]/10 text-[#187BDD]">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1">Location</h3>
-                  <p className="text-[#C1C6D5]">Tiruchengode, Tamil nadu</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 p-6 rounded-2xl bg-[#07152D] border border-white/5 shadow-xl hover:border-white/10 transition-colors">
-                <div className="flex shrink-0 items-center justify-center w-14 h-14 rounded-full bg-[#187BDD]/10 text-[#187BDD]">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1">Call Us</h3>
-                  <a href="tel:+919842744566" className="text-[#C1C6D5] hover:text-[#A6C8FF] transition-colors">9842744566</a>
-                </div>
+      <section aria-labelledby="contact-heading" className="bg-canvas pt-4 pb-6 md:pt-6">
+        <Container>
+          <CosmicBanner>
+            <div className="max-w-3xl">
+              <CosmicEyebrow>Contact</CosmicEyebrow>
+              <h1 id="contact-heading" className="type-h1 mt-6 text-starlight">
+                Let&apos;s talk about what your business needs.
+              </h1>
+              <p className="type-lead mt-6 text-starlight/75!">
+                Call or email us directly, or share a project brief in four short steps.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                <Link href="/start-a-project" className={cosmicPrimary}>
+                  Start a Project <span aria-hidden="true">→</span>
+                </Link>
+                <a href={COMPANY_CONTACT.phoneHref} className={cosmicSecondary}>
+                  Call {COMPANY_CONTACT.phoneDisplay}
+                </a>
               </div>
             </div>
-          </FadeIn>
+          </CosmicBanner>
+        </Container>
+      </section>
 
-          {/* Right Column: Contact Form */}
-          <FadeIn direction="left" delay={400}>
-            <div className="p-8 sm:p-10 rounded-3xl bg-[#07152D] border border-white/10 shadow-2xl relative overflow-hidden">
-              {/* Form background accent */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#187BDD] rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
-
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8 relative z-10">Send us a message</h2>
-
-              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Name Input */}
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-semibold text-[#A6C8FF]">Full Name</label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="John Doe"
-                      className="w-full px-5 py-3.5 rounded-xl bg-[#0b1a30] border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#187BDD] focus:border-transparent transition-all"
-                    />
-                  </div>
-
-                  {/* Email Input */}
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-semibold text-[#A6C8FF]">Email Address</label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@company.com"
-                      className="w-full px-5 py-3.5 rounded-xl bg-[#0b1a30] border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#187BDD] focus:border-transparent transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* Subject Input */}
-                <div className="space-y-2">
-                  <label htmlFor="subject" className="text-sm font-semibold text-[#A6C8FF]">Subject</label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="How can we help you?"
-                    className="w-full px-5 py-3.5 rounded-xl bg-[#0b1a30] border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#187BDD] focus:border-transparent transition-all"
-                  />
-                </div>
-
-                {/* Message Input */}
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-semibold text-[#A6C8FF]">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell us about your project..."
-                    className="w-full px-5 py-3.5 rounded-xl bg-[#0b1a30] border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#187BDD] focus:border-transparent transition-all resize-none"
-                  ></textarea>
-                </div>
-
-                {/* Submit Button & Status */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={status === "loading" || status === "success"}
-                    className="group flex items-center justify-center w-full gap-2 px-8 py-4 rounded-xl bg-[#187BDD] hover:bg-[#156bbb] text-white font-bold transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(24,123,221,0.3)]"
-                  >
-                    {status === "loading" ? (
-                      <span className="flex items-center gap-2">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Sending...
-                      </span>
-                    ) : status === "success" ? (
-                      <span className="flex items-center gap-2">
-                        <CheckCircle className="w-5 h-5" />
-                        Message Sent!
-                      </span>
+      <Section tone="surface1" labelledBy="contact-details-heading">
+        <Container>
+          <h2 id="contact-details-heading" className="type-h2 text-fg-primary">Contact details</h2>
+          <ul className="mt-10 grid gap-6 md:grid-cols-3">
+            {channels.map(({ id, icon: Icon, title, body, value, href }) => (
+              <li key={id} id={id} className="scroll-mt-28">
+                <div className="hover-lift flex h-full flex-col rounded-card border border-line bg-canvas p-6 shadow-raised md:p-8">
+                  <span aria-hidden="true" className="inline-flex size-12 items-center justify-center rounded-button bg-gradient-to-br from-purple to-deep-blue text-starlight shadow-raised">
+                    <Icon className="size-5" />
+                  </span>
+                  <h3 className="type-h4 mt-6 text-fg-primary">{title}</h3>
+                  <p className="type-small mt-2 text-fg-secondary">{body}</p>
+                  <div className="mt-auto pt-6">
+                    {href ? (
+                      <a href={href} className="inline-flex min-h-11 items-center break-all font-semibold text-deep-blue underline underline-offset-4">
+                        {value}
+                      </a>
                     ) : (
-                      <span className="flex items-center gap-2">
-                        Send Message
-                        <Send className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                      </span>
+                      <p className="inline-flex min-h-11 items-center font-semibold text-deep-blue">{value}</p>
                     )}
-                  </button>
-
-                  {/* Error State */}
-                  {status === "error" && (
-                    <div className="mt-4 p-4 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-3">
-                      <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                      <p className="text-sm text-red-200">
-                        There was an error sending your message. Please try again or email us directly.
-                      </p>
-                    </div>
-                  )}
+                  </div>
                 </div>
-              </form>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
+      <Section labelledBy="contact-brief-heading">
+        <Container>
+          <div className="grid items-center gap-8 rounded-panel border border-line bg-canvas p-8 shadow-raised md:p-12 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <h2 id="contact-brief-heading" className="type-h2 text-fg-primary">Share your project brief</h2>
+              <p className="type-lead mt-4 max-w-2xl">Four short steps. Tell us what you need and how to reach you, and we will review the details.</p>
             </div>
-          </FadeIn>
-        </div>
-      </div>
-    </main>
+            <div className="lg:col-span-4 lg:text-right">
+              <Link
+                href="/start-a-project"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button bg-deep-blue px-6 font-semibold text-canvas shadow-raised hover:bg-indigo"
+              >
+                Start a Project <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </Section>
+    </>
   );
 }
