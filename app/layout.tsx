@@ -66,6 +66,11 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   manifest: "/site.webmanifest",
+  // Google Search Console (URL-prefix property, HTML tag method). Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in Vercel
+  // to the tag's content value. When it is unset, no tag is rendered.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 export default function RootLayout({
