@@ -22,7 +22,6 @@ export default function ProblemCard({
         className="mt-5 inline-flex min-h-11 items-center font-semibold text-deep-blue underline underline-offset-4 hover:text-indigo"
       >
         {linkLabel}
-        <span className="sr-only"> (go to page)</span>
       </Link>
     </Card>
   );

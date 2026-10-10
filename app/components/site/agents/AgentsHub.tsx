@@ -11,6 +11,7 @@ import ProcessSteps from "../blocks/ProcessSteps";
 import HumanControl from "./HumanControl";
 import CosmicBanner, { CosmicEyebrow, cosmicPrimary, cosmicSecondary } from "../blocks/CosmicBanner";
 import Tilt3D from "../../motion/Tilt3D";
+import DecoText from "../../ui/DecoText";
 import Card from "../../ui/Card";
 import { agents, hub, setupSteps, type AgentDef } from "../../../content/agents";
 import { START_PROJECT } from "../../../content/routes";
@@ -199,10 +200,12 @@ function AgentStack() {
                   {agent.name.split(" ")[0].slice(0, 2).toUpperCase()}
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-starlight">{agent.name}</p>
+                  <p className="truncate text-sm font-semibold text-starlight">
+                    <DecoText text={agent.name} />
+                  </p>
                   <p className="flex items-center gap-1.5 text-[12px] text-starlight/70">
                     <span className={`size-1.5 rounded-full ${meta.tone} shadow-[0_0_8px_currentColor]`} />
-                    {meta.status}
+                    <DecoText text={meta.status} />
                   </p>
                 </div>
               </div>

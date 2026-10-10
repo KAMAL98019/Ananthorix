@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { cx } from "../../ui/cx";
+import DecoText, { childrenText } from "../../ui/DecoText";
 
 // CSS-3D hero scenes for the solution pages. One distinct scene per service, no WebGL and no extra JS.
 // Sizes use container units (cqw), so every scene scales with its stage. Motion classes live in globals.css
@@ -91,7 +92,7 @@ function Billboard({ x, y, z, children, gold }: { x: number; y: number; z: numbe
       )}
       style={{ left: u(x), top: u(y), transform: `translateZ(${u(z)}) rotateZ(-45deg) rotateX(-58deg) translate(-50%, -100%)` }}
     >
-      {children}
+      <DecoText text={childrenText(children)} />
     </span>
   );
 }
@@ -127,7 +128,7 @@ function Pill({ children, className, style, gold }: { children: ReactNode; class
       )}
       style={style}
     >
-      {children}
+      <DecoText text={childrenText(children)} />
     </span>
   );
 }
@@ -362,7 +363,7 @@ function Cube({ l }: SceneProps) {
               className="absolute inset-0 flex items-center justify-center rounded-[2cqw] border border-white/25 font-mono text-[6cqw] font-semibold text-starlight"
               style={{ transform: f.t, background: "linear-gradient(135deg,rgba(123,99,240,0.55),rgba(42,33,110,0.75))" }}
             >
-              {f.g}
+              <DecoText text={f.g} />
             </div>
           ))}
         </div>
@@ -408,7 +409,7 @@ function Browser({ l }: SceneProps) {
         </div>
       </div>
       <div className="scene-bob absolute bottom-[4%] right-[-4%] w-[42%] rounded-[2cqw] border border-gold/40 bg-[#1b1440]/95 p-[2.2cqw] shadow-[0_20px_60px_rgba(0,0,0,0.5)]" style={{ transform: `translateZ(${u(16)})` }}>
-        <p className="text-[max(10px,2.2cqw)] font-semibold text-gold">{l(0)}</p>
+        <p className="text-[max(10px,2.2cqw)] font-semibold text-gold"><DecoText text={l(0)} /></p>
         <Lines count={2} className="mt-[1.4cqw]" />
       </div>
       <Pill className="left-[-2%] top-[-6%]" style={{ transform: `translateZ(${u(12)})` }}>
@@ -443,11 +444,11 @@ function Phone({ l }: SceneProps) {
         </div>
       </div>
       <div className="scene-bob absolute left-[4%] top-[20%] w-[36%] rounded-[2.4cqw] border border-white/15 bg-white/10 p-[2cqw]" style={{ transform: `translateZ(${u(14)})` }}>
-        <p className="text-[max(10px,2.2cqw)] font-semibold text-starlight">{l(0)}</p>
+        <p className="text-[max(10px,2.2cqw)] font-semibold text-starlight"><DecoText text={l(0)} /></p>
         <Lines count={2} className="mt-[1.2cqw]" />
       </div>
       <div className="scene-bob-late absolute right-[2%] bottom-[18%] w-[34%] rounded-[2.4cqw] border border-gold/40 bg-gold/15 p-[2cqw]" style={{ transform: `translateZ(${u(18)})` }}>
-        <p className="text-[max(10px,2.2cqw)] font-semibold text-[#FBE9A8]">{l(1)}</p>
+        <p className="text-[max(10px,2.2cqw)] font-semibold text-[#FBE9A8]"><DecoText text={l(1)} /></p>
         <span className="mt-[1.2cqw] block h-[1.4cqw] w-3/4 rounded-full bg-gold/50" />
       </div>
     </div>
@@ -506,7 +507,7 @@ function Desktop({ l }: SceneProps) {
       <div className="scene-bob absolute left-[46%] top-[22%] w-[44%] rounded-[2cqw] border border-white/20 bg-[#1b2258] shadow-[0_24px_60px_rgba(0,0,0,0.5)]" style={{ transform: `translateZ(${u(16)})` }}>
         <WindowBar />
         <div className="p-[2cqw]">
-          <p className="text-[max(10px,2.2cqw)] font-semibold text-starlight">{l(0)}</p>
+          <p className="text-[max(10px,2.2cqw)] font-semibold text-starlight"><DecoText text={l(0)} /></p>
           <span className="mt-[1.6cqw] block h-[2.4cqw] w-full overflow-hidden rounded-full bg-white/10">
             <span className="scene-progress block h-full w-3/4 rounded-full bg-gradient-to-r from-purple to-gold" />
           </span>
@@ -557,7 +558,7 @@ function Layers({ l }: SceneProps) {
           )}
           style={{ left: "100%", top: "100%", transform: `translateZ(${u(layer.z + 1)}) rotateZ(38deg) rotateX(-56deg) translate(4%, -50%)` }}
         >
-          {layer.label}
+          <DecoText text={layer.label} />
         </span>
       ))}
     </div>

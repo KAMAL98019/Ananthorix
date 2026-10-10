@@ -4,6 +4,7 @@ import { SendHorizontal } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useMotion } from "../../motion/MotionProvider";
 import { cx } from "../../ui/cx";
+import DecoText from "../../ui/DecoText";
 
 // Live-style chat panel for the SCRIPTED, ILLUSTRATIVE agent transcripts (never customer data).
 // While on screen it plays the script: the agent "types", then each message slides in, and the conversation
@@ -101,7 +102,10 @@ export default function LiveChat({
             <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2 border-canvas bg-[#22C55E]" />
           </span>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-fg-primary sm:text-base">{title}</p>
+            <p className="truncate text-sm font-semibold text-fg-primary sm:text-base">
+              {/* The tab or page heading already names the agent; this header copy is decorative. */}
+              <DecoText text={title} />
+            </p>
             <p aria-hidden="true" className="text-[12px] text-fg-secondary">
               {typing ? <span className="text-purple">typing…</span> : "Online"}
             </p>

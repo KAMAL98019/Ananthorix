@@ -3,6 +3,7 @@ import Container from "../../layout/Container";
 import Section from "../../layout/Section";
 import SectionHeading from "../blocks/SectionHeading";
 import TechnologyExplorer from "./TechnologyExplorer";
+import DecoText from "../../ui/DecoText";
 import { LAYER_ORDER, technologyCategories, technologyIntro, type TechnologyCategory } from "../../../content/technologies";
 import { TECH_LOGOS } from "../../../content/techLogos";
 
@@ -64,7 +65,9 @@ function LayerPanel({ layer, index, total }: { layer: TechnologyCategory; index:
         <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-gold">
           Layer {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </p>
-        <p className="rounded-chip border border-white/15 bg-white/5 px-3 py-1 text-[12px] text-starlight/80">{layer.items.length} technologies</p>
+        <p className="rounded-chip border border-white/15 bg-white/5 px-3 py-1 text-[12px] text-starlight/80">
+          <DecoText text={`${layer.items.length} technologies`} />
+        </p>
       </div>
       <h3 className="type-h3 mt-4 text-starlight">{layer.title}</h3>
       <p className="type-body mt-2 max-w-xl text-starlight/70">{layer.summary}</p>

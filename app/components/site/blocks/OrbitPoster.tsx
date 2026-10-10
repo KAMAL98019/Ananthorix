@@ -2,6 +2,7 @@ import Image from "next/image";
 import { cx } from "../../ui/cx";
 import Parallax from "../../motion/Parallax";
 import Tilt3D from "../../motion/Tilt3D";
+import DecoText from "../../ui/DecoText";
 import { lemniscatePath, lemniscatePoint } from "./infinityPath";
 
 // Infinity Flow (homepage hero). "Anant" means infinite. The idea follows Ananta, the endless coil resting on
@@ -101,7 +102,7 @@ export default function OrbitPoster({ className }: { className?: string }) {
                   className="orbit-label-in absolute inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-chip border border-white bg-canvas px-2 py-1 text-[9px] font-semibold text-[#171717] shadow-[0_8px_24px_rgba(10,31,68,0.12)] sm:gap-2 sm:px-3 sm:py-1.5 sm:text-[11px]"
                 >
                   <span className={cx("size-1.5 rounded-full", item.tone)} />
-                  {item.label}
+                  <DecoText text={item.label} />
                 </span>
               </div>
             ))}

@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | Anantorix Technologies",
   },
   description:
-    "AI development, custom software, CRM and ERP systems, analytics dashboards, web applications and SaaS product development for businesses in India and worldwide.",
+    "AI development, custom software, CRM and ERP systems, analytics dashboards, web applications and SaaS product development for businesses across India.",
   authors: [{ name: "Anantorix Technologies" }],
   creator: "Anantorix Technologies",
   publisher: "Anantorix Technologies",

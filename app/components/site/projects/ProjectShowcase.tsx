@@ -11,6 +11,7 @@ import { useMotion } from "../../motion/MotionProvider";
 import { cx } from "../../ui/cx";
 import { showcaseProjects, type ShowcaseProject } from "../../../content/projects";
 import { Label, Select } from "../../ui/Field";
+import DecoText from "../../ui/DecoText";
 
 // Real-project showcase. Left: compact project selectors, two visible at a time, looping automatically,
 // with Previous, pause/play and Next. Right: the active project, which collapses to a short preview with a
@@ -141,10 +142,11 @@ export default function ProjectShowcase() {
                         <span className={cx("font-mono text-[12px] tracking-wide", current ? "text-gold" : "text-fg-secondary")}>
                           {String((index % COUNT) + 1).padStart(2, "0")}
                         </span>
+                        {/* Loop copies show the same names decoratively, so each project name is page text once. */}
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-base font-semibold">{item.name}</span>
+                          <span className="block truncate text-base font-semibold">{copy ? <DecoText text={item.name} /> : item.name}</span>
                           <span className={cx("type-small mt-0.5 block truncate", current ? "text-canvas/70" : "text-fg-secondary")}>
-                            {item.category.split(" · ")[0]}
+                            {copy ? <DecoText text={item.category.split(" · ")[0]} /> : item.category.split(" · ")[0]}
                           </span>
                         </span>
                         {/* Countdown to the next project. Restarts on each move, freezes when paused. */}
