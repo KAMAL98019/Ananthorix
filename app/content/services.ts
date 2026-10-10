@@ -14,6 +14,8 @@ export type ServiceDef = {
   // Page name. The root layout appends " | Anantorix Technologies".
   metaTitle: string;
   metaDescription: string;
+  // Optional search-result title (page <title> only). Falls back to metaTitle, which is also the on-page name.
+  seoTitle?: string;
   // Short line used on the services hub.
   summary: string;
   eyebrow: string;
@@ -40,7 +42,8 @@ export const services: ServiceDef[] = [
   {
     slug: "ai-solutions",
     metaTitle: "AI Solutions & Development Company",
-    metaDescription: "AI solutions for businesses: readiness workshops, pilots, AI features in existing software, custom assistants and agents.",
+    metaDescription: "AI development company in India building AI solutions for business: readiness workshops, pilots, AI features in existing software, assistants and agents.",
+    seoTitle: "AI Development Company in India",
     summary: "AI features, assistants and agents built around real business work.",
     eyebrow: "AI & Intelligence",
     h1: "AI solutions that solve real business problems",
@@ -104,7 +107,8 @@ export const services: ServiceDef[] = [
   {
     slug: "ai-automation",
     metaTitle: "AI Automation Services",
-    metaDescription: "AI automation for document processing, enquiry triage, reports, approvals and integrations that remove repetitive work.",
+    metaDescription: "AI automation services in India for document processing, enquiry triage, reports, approvals and integrations that remove repetitive work.",
+    seoTitle: "AI Automation Services in India",
     summary: "Repetitive work handled by software, with your team in control.",
     eyebrow: "AI & Intelligence",
     h1: "Automate the work that slows your business down",
@@ -168,7 +172,8 @@ export const services: ServiceDef[] = [
   {
     slug: "business-analytics",
     metaTitle: "Business Analytics Solutions",
-    metaDescription: "Business analytics for management dashboards, sales pipeline, inventory and finance reporting, data integration and forecasting.",
+    metaDescription: "Business analytics and dashboard development: management dashboards, sales pipeline, inventory and finance reporting, data integration and forecasting.",
+    seoTitle: "Business Analytics & Dashboards",
     summary: "Clear, current numbers that help leaders decide faster.",
     eyebrow: "AI & Intelligence",
     h1: "See your whole business clearly, every day",
@@ -224,7 +229,8 @@ export const services: ServiceDef[] = [
   {
     slug: "crm-development",
     metaTitle: "Custom CRM Development",
-    metaDescription: "Custom CRM development: pipeline, customization, integrations with WhatsApp and email, customer portals and data migration.",
+    metaDescription: "CRM software development in India: custom pipelines, WhatsApp and email integrations, customer portals and data migration from your current CRM.",
+    seoTitle: "CRM Software Development in India",
     summary: "A CRM shaped around how your team sells and serves customers.",
     eyebrow: "Business Systems",
     h1: "A CRM built around how your team actually sells",
@@ -285,7 +291,8 @@ export const services: ServiceDef[] = [
   {
     slug: "erp-software-development",
     metaTitle: "ERP & Business Software Development",
-    metaDescription: "Custom ERP and business software: inventory, purchase and sales, production, HR, accounting integration, billing and modernization.",
+    metaDescription: "ERP software development in India: inventory, purchase and sales, production, HR, accounting integration and billing, built around how you operate.",
+    seoTitle: "ERP Software Development in India",
     summary: "Operations software that connects inventory, sales, production and finance.",
     eyebrow: "Business Systems",
     h1: "Business software that connects every part of your operations",
@@ -344,7 +351,8 @@ export const services: ServiceDef[] = [
   {
     slug: "custom-software-development",
     metaTitle: "Custom Software Development",
-    metaDescription: "Custom software development: architecture, API integration, legacy modernization and data engineering for growing businesses.",
+    metaDescription: "Custom software development company in India: architecture, API integration, legacy modernization and data engineering for growing businesses.",
+    seoTitle: "Custom Software Development Company",
     summary: "Software designed around your processes, not forced into a template.",
     eyebrow: "Business Systems",
     h1: "Custom software built around your business",
@@ -399,7 +407,8 @@ export const services: ServiceDef[] = [
   {
     slug: "web-application-development",
     metaTitle: "Web Application Development",
-    metaDescription: "Web application development: customer and partner portals, dashboards, booking systems, e-commerce, internal tools and APIs.",
+    metaDescription: "Web application development in India: customer and partner portals, dashboards, booking systems, e-commerce, internal tools and APIs.",
+    seoTitle: "Web Application Development Company",
     summary: "Browser-based applications for customers, partners and your own team.",
     eyebrow: "Product Engineering",
     h1: "Web applications built to run your business and scale with it",
@@ -458,7 +467,8 @@ export const services: ServiceDef[] = [
   {
     slug: "mobile-app-development",
     metaTitle: "Mobile App Development",
-    metaDescription: "Mobile app development for iOS and Android: customer apps, field-team apps, cross-platform builds and ongoing maintenance.",
+    metaDescription: "Mobile app development company in India building iOS and Android apps for customers and field teams, with cross-platform builds and maintenance.",
+    seoTitle: "Mobile App Development Company",
     summary: "iOS and Android apps for customers and field teams.",
     eyebrow: "Product Engineering",
     h1: "Mobile apps your customers and teams will actually use",
@@ -514,7 +524,8 @@ export const services: ServiceDef[] = [
   {
     slug: "saas-development",
     metaTitle: "SaaS Development Company",
-    metaDescription: "SaaS development from idea to scalable product: discovery, multi-tenant setup, subscriptions, admin tools and AI features.",
+    metaDescription: "SaaS product development in India from idea to scalable product: discovery, multi-tenant architecture, subscriptions, admin tools and AI features.",
+    seoTitle: "SaaS Product Development Company",
     summary: "Subscription products built from idea to scale.",
     eyebrow: "Product Engineering",
     h1: "From SaaS idea to scalable product",

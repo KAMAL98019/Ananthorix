@@ -8,7 +8,7 @@ export const heroOutcomes = "Sell more · Run smarter · Decide faster";
 
 export const hero = {
   eyebrow: "Intelligent digital systems",
-  headline: "Intelligent systems that run your business better.",
+  headline: "Intelligent AI & Custom Software Solutions for Modern Businesses",
   lead: positioning,
 };
 

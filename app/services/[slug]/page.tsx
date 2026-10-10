@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = getService(slug);
   if (!service) return {};
   return pageMetadata({
-    title: service.metaTitle,
+    title: service.seoTitle ?? service.metaTitle,
     description: service.metaDescription,
     path: `/services/${service.slug}`,
   });

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { positioning } from "./content/home";
 import { organizationJsonLd, webSiteJsonLd } from "./lib/seo";
 import HeroSection from "./components/site/sections/HeroSection";
 import TrustStrip from "./components/site/sections/TrustStrip";
@@ -19,8 +18,10 @@ import FinalCta from "./components/site/sections/FinalCta";
 // Hidden until real content exists (Phase 2 brief):
 // 10. Industries (P2), 12. Testimonials (until real testimonials exist), 14. Insights (P2).
 
-const homeTitle = "Anantorix Technologies | Intelligent digital systems for modern businesses";
-const homeDescription = `${positioning} Sell more, run smarter and decide faster.`;
+// Search-facing title and description (SEO brief, Oct 2026). On-page positioning copy is unchanged.
+const homeTitle = "Anantorix Technologies | AI & Software Development";
+const homeDescription =
+  "AI development, custom software, CRM and ERP systems, analytics dashboards, web applications and SaaS product development for businesses in India and worldwide.";
 
 export const metadata: Metadata = {
   title: { absolute: homeTitle },
@@ -32,13 +33,13 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Anantorix Technologies",
     type: "website",
-    images: [{ url: "/socialicon.png", width: 1200, height: 630, alt: "Anantorix Technologies" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Anantorix Technologies: AI and software development" }],
   },
   twitter: {
     card: "summary_large_image",
     title: homeTitle,
     description: homeDescription,
-    images: ["/socialicon.png"],
+    images: ["/og-image.png"],
   },
 };
 

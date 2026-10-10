@@ -6,6 +6,7 @@ import Section from "./components/layout/Section";
 // Returned for any unknown URL (HTTP 404). Unknown URLs are not redirected to the homepage.
 export const metadata: Metadata = {
   title: "Page not found",
+  description: "This page does not exist on the Anantorix Technologies website.",
   robots: { index: false, follow: false },
 };
 

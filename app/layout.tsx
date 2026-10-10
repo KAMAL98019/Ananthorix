@@ -32,10 +32,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://www.anantorix.com"),
   title: {
-    default: "Anantorix Technologies | Intelligent digital systems for modern businesses",
+    default: "Anantorix Technologies | AI & Software Development",
     template: "%s | Anantorix Technologies",
   },
-  description: "Anantorix builds intelligent digital systems for modern businesses.",
+  description:
+    "AI development, custom software, CRM and ERP systems, analytics dashboards, web applications and SaaS product development for businesses in India and worldwide.",
   authors: [{ name: "Anantorix Technologies" }],
   creator: "Anantorix Technologies",
   publisher: "Anantorix Technologies",
@@ -50,10 +51,10 @@ export const metadata: Metadata = {
     siteName: "Anantorix Technologies",
     images: [
       {
-        url: "/socialicon.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Anantorix Technologies Logo",
+        alt: "Anantorix Technologies: AI and software development",
       },
     ],
     type: "website",
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Anantorix Technologies",
     description: "Anantorix builds intelligent digital systems for modern businesses.",
-    images: ["/socialicon.png"],
+    images: ["/og-image.png"],
   },
   manifest: "/site.webmanifest",
 };

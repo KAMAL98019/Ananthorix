@@ -14,7 +14,7 @@ import { ProblemsSection, WhatWeBuildSection, OutcomesSection, UseCasesSection }
 import UniqueSection from "./UniqueSection";
 import { faqFor, isLive, services, type ServiceDef } from "../../../content/services";
 import { startProjectHref } from "../../../lib/leads/context";
-import { breadcrumbJsonLd, SITE_NAME, SITE_URL } from "../../../lib/seo";
+import { breadcrumbJsonLd, ORGANIZATION_ID, SITE_NAME, SITE_URL } from "../../../lib/seo";
 
 // The one reusable service page. Every confirmed service route renders through this template.
 // Section order follows the V2 specification. Content comes only from the service record.
@@ -192,7 +192,7 @@ function serviceJsonLd(service: ServiceDef) {
     description: service.metaDescription,
     serviceType: service.metaTitle,
     url: `${SITE_URL}/services/${service.slug}`,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@type": "Organization", "@id": ORGANIZATION_ID, name: SITE_NAME, url: SITE_URL },
     areaServed: ["India"],
   };
 }

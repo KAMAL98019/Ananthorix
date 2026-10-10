@@ -1,5 +1,7 @@
 import Breadcrumbs from "./Breadcrumbs";
+import JsonLd from "./JsonLd";
 import Container from "../../layout/Container";
+import { breadcrumbJsonLd } from "../../../lib/seo";
 
 // Readable legal page: a short header, a sticky contents list on large screens, and numbered sections.
 export type LegalSection = { id: string; title: string; body: React.ReactNode };
@@ -17,15 +19,15 @@ export default function LegalPage({
   intro: React.ReactNode;
   sections: LegalSection[];
 }) {
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: title, path },
+  ];
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd(crumbs)} />
       <Container className="pt-8">
-        <Breadcrumbs
-          items={[
-            { name: "Home", path: "/" },
-            { name: title, path },
-          ]}
-        />
+        <Breadcrumbs items={crumbs} />
       </Container>
 
       <section aria-labelledby="legal-heading" className="relative overflow-hidden bg-canvas pt-10 pb-12 md:pt-14">

@@ -11,6 +11,7 @@ import { services } from "../../content/services";
 // Confirmation page. Not indexable. Disallowed in robots.txt as well.
 export const metadata: Metadata = {
   title: "Thank you",
+  description: "Your project brief has been received by Anantorix Technologies.",
   robots: { index: false, follow: false },
 };
 
