@@ -170,7 +170,8 @@ export function internalNotification(r: LeadRecord): EmailContent {
     { label: "Company size", value: labelFor(COMPANY_SIZES, r.companySize) },
   ];
   const source = [
-    { label: "Source page", value: r.sourcePage || "Not captured" },
+    { label: "Landing page", value: r.landingPage || "Not captured" },
+    { label: "Form page", value: r.sourcePage || "Not captured" },
     { label: "Referrer", value: r.referrer || "Not captured" },
     ...Object.entries(r.utm).map(([k, v]) => ({ label: `UTM ${k}`, value: v })),
     ...(r.contextService ? [{ label: "From service", value: r.contextService }] : []),

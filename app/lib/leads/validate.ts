@@ -124,6 +124,7 @@ export function validateLead(raw: unknown): ValidationResult {
       consent: true,
       website: cleanText(input.website, 200),
       sourcePage: cleanText(input.sourcePage, LIMITS.sourcePage),
+      landingPage: cleanText(input.landingPage, LIMITS.landingPage),
       referrer: cleanText(input.referrer, LIMITS.referrer),
       utm: cleanUtm(input.utm),
       contextService: cleanText(input.contextService, 100),

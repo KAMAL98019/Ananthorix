@@ -1,30 +1,39 @@
 // Fixed-window rate limit, in memory, per client address.
-// Limitation: each server instance keeps its own counters. Serverless platforms may reset them.
-// A shared store (for example Redis) should replace this before high-traffic launch.
+// Limitation: each server instance keeps its own counters, and serverless platforms (Vercel) may run several
+// instances or reset them, so this is best-effort only. A shared store (for example Upstash Redis) should
+// replace it if spam becomes a problem.
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
-const hits = new Map<string, { count: number; windowStart: number }>();
 
-export function isAllowed(key: string, now = Date.now()): boolean {
-  const entry = hits.get(key);
-  if (!entry || now - entry.windowStart >= WINDOW_MS) {
-    hits.set(key, { count: 1, windowStart: now });
-    pruneIfLarge(now);
+export type RateLimiter = (key: string, now?: number) => boolean;
+
+export function createRateLimiter(max = MAX_PER_WINDOW, windowMs = WINDOW_MS): RateLimiter {
+  const hits = new Map<string, { count: number; windowStart: number }>();
+
+  // Keeps the map from growing without bound.
+  const pruneIfLarge = (now: number) => {
+    if (hits.size < 5000) return;
+    for (const [key, entry] of hits) {
+      if (now - entry.windowStart >= windowMs) hits.delete(key);
+    }
+  };
+
+  return (key, now = Date.now()) => {
+    const entry = hits.get(key);
+    if (!entry || now - entry.windowStart >= windowMs) {
+      hits.set(key, { count: 1, windowStart: now });
+      pruneIfLarge(now);
+      return true;
+    }
+    if (entry.count >= max) return false;
+    entry.count += 1;
     return true;
-  }
-  if (entry.count >= MAX_PER_WINDOW) return false;
-  entry.count += 1;
-  return true;
+  };
 }
 
-// Keeps the map from growing without bound.
-function pruneIfLarge(now: number) {
-  if (hits.size < 5000) return;
-  for (const [key, entry] of hits) {
-    if (now - entry.windowStart >= WINDOW_MS) hits.delete(key);
-  }
-}
+// Shared limiter for the live endpoint.
+export const isAllowed = createRateLimiter();
 
 export function clientKey(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");

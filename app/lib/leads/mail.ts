@@ -9,12 +9,20 @@ import type { LeadSubmissionService } from "./service";
 
 export class LeadDeliveryError extends Error {}
 
+// The parts of a Nodemailer transport this module uses, so tests can supply a fake.
+export type MailTransport = Pick<nodemailer.Transporter, "sendMail">;
+export type MailSender = { user: string; transport: MailTransport };
+
 let transporter: nodemailer.Transporter | null = null;
 
-function sender(): { user: string; transport: nodemailer.Transporter } {
+function gmailSender(): MailSender {
   const user = process.env.EMAIL_USER;
   const pass = process.env.EMAIL_PASS;
-  if (!user || !pass) throw new LeadDeliveryError("mail-not-configured");
+  if (!user || !pass) {
+    // Variable names only; values are never logged.
+    console.error("[lead] mail not configured", { missing: [!user && "EMAIL_USER", !pass && "EMAIL_PASS"].filter(Boolean) });
+    throw new LeadDeliveryError("mail-not-configured");
+  }
   if (!transporter) {
     transporter = nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
   }
@@ -29,51 +37,43 @@ function safeCode(error: unknown): string {
 
 // Temporary failures (network blips, Gmail throttling with a 4xx reply) are worth one retry. Auth and permanent
 // rejections are not.
-function isTransient(error: unknown): boolean {
+export function isTransient(error: unknown): boolean {
   const { code, responseCode } = (error ?? {}) as { code?: string; responseCode?: number };
   if (typeof responseCode === "number") return responseCode >= 400 && responseCode < 500;
   return ["ETIMEDOUT", "ECONNECTION", "ESOCKET", "ECONNRESET", "EDNS"].includes(code ?? "");
 }
 
-async function sendWithRetry(transport: nodemailer.Transporter, mail: nodemailer.SendMailOptions) {
+async function sendWithRetry(transport: MailTransport, mail: nodemailer.SendMailOptions, retryDelayMs: number) {
   try {
     await transport.sendMail(mail);
   } catch (error) {
     if (!isTransient(error)) throw error;
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
     await transport.sendMail(mail);
   }
 }
 
 // Sends the internal notification first (required), then the lead's confirmation (best effort).
-// Resolves only when the notification has been accepted by the mail server.
-export const nodemailerLeadDelivery: LeadSubmissionService = {
-  async submit(record) {
-    const { user, transport } = sender();
+// Resolves only when the notification has been accepted by the mail server; otherwise throws.
+export function createMailDelivery(getSender: () => MailSender = gmailSender, retryDelayMs = 1500): LeadSubmissionService {
+  return {
+    async submit(record) {
+      const { user, transport } = getSender();
 
-    const notification = internalNotification(record);
-    try {
-      await sendWithRetry(transport, {
-        from: `"Anantorix website" <${user}>`,
-        to: COMPANY_CONTACT.email,
-        replyTo: record.email,
-        ...notification,
-      });
-    } catch (error) {
-      console.error("[lead] internal notification failed", { code: safeCode(error), reference: record.id });
-      throw new LeadDeliveryError("notification-failed");
-    }
+      try {
+        await sendWithRetry(transport, { from: `"Anantorix website" <${user}>`, to: COMPANY_CONTACT.email, replyTo: record.email, ...internalNotification(record) }, retryDelayMs);
+      } catch (error) {
+        console.error("[lead] internal notification failed", { code: safeCode(error), reference: record.id });
+        throw new LeadDeliveryError("notification-failed");
+      }
 
-    const confirmation = leadConfirmation(record);
-    try {
-      await sendWithRetry(transport, {
-        from: `"Anantorix Technologies" <${user}>`,
-        to: record.email,
-        replyTo: COMPANY_CONTACT.email,
-        ...confirmation,
-      });
-    } catch (error) {
-      console.error("[lead] confirmation email failed", { code: safeCode(error), reference: record.id });
-    }
-  },
-};
+      try {
+        await sendWithRetry(transport, { from: `"Anantorix Technologies" <${user}>`, to: record.email, replyTo: COMPANY_CONTACT.email, ...leadConfirmation(record) }, retryDelayMs);
+      } catch (error) {
+        console.error("[lead] confirmation email failed", { code: safeCode(error), reference: record.id });
+      }
+    },
+  };
+}
+
+export const nodemailerLeadDelivery = createMailDelivery();

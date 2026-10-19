@@ -10,6 +10,8 @@ import { ContactStep, ContextStep, NeedsStep, SituationStep } from "./steps";
 import { initialValues, STEPS, validateStep, type Errors, type FormValues } from "./formModel";
 import { labelFor, NEEDS, SITUATIONS, TIMELINES } from "../../../lib/leads/schema";
 import type { StartContext } from "../../../lib/leads/context";
+import { getAttribution } from "../../../lib/attribution";
+import { trackLeadGenerated } from "../../../lib/analytics";
 
 // Guided 4-step brief. One question group per step. Step changes animate (opacity and translateX)
 // unless the visitor prefers reduced motion. Server validation is authoritative.
@@ -21,7 +23,6 @@ const STEP_FOR_FIELD: Record<string, number> = {
   name: 3, email: 3, phone: 3, company: 3, contactMethod: 3, language: 3, consent: 3,
 };
 
-const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
 
 export default function StartProjectForm({ context, contextLabel }: { context: StartContext; contextLabel: string | null }) {
   const router = useRouter();
@@ -32,6 +33,8 @@ export default function StartProjectForm({ context, contextLabel }: { context: S
   const [errors, setErrors] = useState<Errors>({});
   const [serverError, setServerError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  // Synchronous guard: state updates are async, so two fast clicks could both pass a state check.
+  const inFlight = useRef(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const skipFocus = useRef(true);
 
@@ -78,19 +81,18 @@ export default function StartProjectForm({ context, contextLabel }: { context: S
   };
 
   const submit = async () => {
+    if (inFlight.current) return;
+    inFlight.current = true;
     setSubmitting(true);
     setServerError("");
-    const params = new URLSearchParams(window.location.search);
-    const utm: Record<string, string> = {};
-    for (const key of UTM_KEYS) {
-      const v = params.get(key);
-      if (v) utm[key.replace("utm_", "")] = v;
-    }
+    // First-touch attribution for the session (landing page, external referrer, UTM tags), plus the form page.
+    const attribution = getAttribution();
     const payload = {
       ...values,
       sourcePage: `${window.location.pathname}${window.location.search}`.slice(0, 200),
-      referrer: document.referrer.slice(0, 300),
-      utm,
+      landingPage: attribution.landingPage,
+      referrer: attribution.referrer,
+      utm: attribution.utm,
       contextService: context.service,
       contextAgent: context.agent,
     };
@@ -101,9 +103,17 @@ export default function StartProjectForm({ context, contextLabel }: { context: S
         body: JSON.stringify(payload),
       });
       if (res.ok) {
+        // The server returns 200 only after the brief has been delivered. The conversion is recorded here, once,
+        // and never on the thank-you page (which can be reloaded or opened directly).
+        const data = (await res.json().catch(() => ({}))) as { id?: string };
+        if (data.id) {
+          trackLeadGenerated({ leadId: data.id, needs: values.needs, utmSource: attribution.utm.source, landingPage: attribution.landingPage });
+        }
+        // Stays in flight: the visitor is leaving the form, so it must not be sent again.
         router.push("/start-a-project/thank-you");
         return;
       }
+      inFlight.current = false;
       const data = (await res.json().catch(() => ({}))) as { errors?: Errors; error?: string };
       if (data.errors) {
         setErrors(data.errors);
@@ -115,6 +125,7 @@ export default function StartProjectForm({ context, contextLabel }: { context: S
         setServerError(data.error ?? "We could not send your brief. Please try again.");
       }
     } catch {
+      inFlight.current = false;
       setServerError("We could not reach the server. Check your connection and try again.");
     } finally {
       setSubmitting(false);

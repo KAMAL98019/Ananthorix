@@ -1,30 +1,12 @@
 import { randomUUID } from "node:crypto";
 import type { LeadInput, LeadRecord } from "./schema";
 
-// Lead delivery abstraction. Concrete delivery (CRM, email, WhatsApp) is NOT connected yet.
-// Replace the sink only after Anantorix approves the destination and the consent wording.
+// Lead delivery abstraction. The live implementation is email via Nodemailer (mail.ts): the brief goes to the
+// company inbox and a confirmation goes to the visitor. submit() must throw if the lead was not delivered, so the
+// endpoint never reports success for an undelivered lead. There is no logging-only fallback.
 export interface LeadSubmissionService {
   submit(record: LeadRecord): Promise<void>;
 }
-
-// Development-safe sink. Logs a REDACTED summary only: no name, email, phone or free text.
-// It does not deliver the lead anywhere. Submissions are not persisted or forwarded.
-export const redactedLogSink: LeadSubmissionService = {
-  async submit(record) {
-    console.info("[lead] received (redacted, not delivered)", {
-      id: record.id,
-      formType: record.formType,
-      needs: record.needs,
-      timeline: record.timeline,
-      market: record.market,
-      companySize: record.companySize,
-      contactMethod: record.contactMethod,
-      language: record.language,
-      sourcePage: record.sourcePage,
-      timestamp: record.timestamp,
-    });
-  },
-};
 
 export function buildLeadRecord(input: LeadInput): LeadRecord {
   return {
@@ -46,6 +28,7 @@ export function buildLeadRecord(input: LeadInput): LeadRecord {
     language: input.language,
     consent: input.consent,
     sourcePage: input.sourcePage,
+    landingPage: input.landingPage,
     referrer: input.referrer,
     utm: input.utm,
     contextService: input.contextService,

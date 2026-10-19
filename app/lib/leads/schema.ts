@@ -66,6 +66,7 @@ export const LIMITS = {
   utm: 100,
   referrer: 300,
   sourcePage: 200,
+  landingPage: 200,
 } as const;
 
 export type LeadInput = {
@@ -86,6 +87,8 @@ export type LeadInput = {
   // Hidden honeypot. Real users leave it empty.
   website: string;
   sourcePage: string;
+  // First page of the visitor's session (first-touch attribution).
+  landingPage: string;
   referrer: string;
   utm: Record<string, string>;
   contextService: string;
@@ -111,6 +114,8 @@ export type LeadRecord = {
   language: string;
   consent: boolean;
   sourcePage: string;
+  // First page of the visitor's session (first-touch attribution).
+  landingPage: string;
   referrer: string;
   utm: Record<string, string>;
   contextService: string;

@@ -6,6 +6,7 @@ import SiteHeader from "./components/site/SiteHeader";
 import SiteFooter from "./components/site/SiteFooter";
 import { MotionProvider } from "./components/motion/MotionProvider";
 import ScrollProgress from "./components/motion/ScrollProgress";
+import AttributionCapture from "./components/analytics/AttributionCapture";
 
 // Typography per the Luminous White brief: Manrope headings, Inter body/UI, JetBrains Mono data labels.
 // next/font self-hosts these at build time.
@@ -89,6 +90,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <ScrollProgress />
+        <AttributionCapture />
 
         {/* Google Analytics (GA4) */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
