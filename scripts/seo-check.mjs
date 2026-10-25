@@ -74,7 +74,7 @@ for (const loc of locs) {
   for (const m of html.matchAll(/<a [^>]*href="(\/[^"#?]*)/g)) internal.add(m[1]);
 }
 for (const [t, pages] of titles) if (pages.length > 1) fail(`duplicate title "${t}" on ${pages.join(", ")}`);
-for (const [d, pages] of descs) if (pages.length > 1) fail(`duplicate description on ${pages.join(", ")}`);
+for (const pages of descs.values()) if (pages.length > 1) fail(`duplicate description on ${pages.join(", ")}`);
 ok(`${locs.length} pages: titles, descriptions, canonicals, H1, JSON-LD, text artifacts, positioning checked`);
 
 // 4. Utility pages must be noindex and outside the sitemap
