@@ -30,6 +30,10 @@ const jetbrainsMono = JetBrains_Mono({
   preload: false,
 });
 
+// Google Analytics 4 (Anantorix property). Measurement IDs are public by design. NEXT_PUBLIC_GA_MEASUREMENT_ID
+// overrides it (for example to use a separate test property); an empty value is ignored.
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-694F39R80D";
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://www.anantorix.com"),
   title: {
@@ -93,10 +97,10 @@ export default function RootLayout({
         <AttributionCapture />
 
         {/* Google Analytics (GA4) */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+        {GA_MEASUREMENT_ID && (
           <>
             <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
               strategy="afterInteractive"
             />
             <Script id="google-analytics" strategy="afterInteractive">
@@ -104,7 +108,7 @@ export default function RootLayout({
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
+                gtag('config', '${GA_MEASUREMENT_ID}', {
                   page_path: window.location.pathname,
                 });
               `}
