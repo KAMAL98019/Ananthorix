@@ -10,6 +10,7 @@ import { validateLead } from "../app/lib/leads/validate";
 import { internalNotification, leadConfirmation } from "../app/lib/leads/emailTemplates";
 import { externalReferrer, utmFrom } from "../app/lib/attribution";
 import type { LeadRecord } from "../app/lib/leads/schema";
+import { COMPANY_CONTACT } from "../app/content/contact";
 
 // Clearly marked test brief. Never a real person.
 const validBrief = {
@@ -194,8 +195,8 @@ describe("email delivery (fake transport)", () => {
     const { getSender, sent } = sender(() => {});
     await createMailDelivery(getSender, 0).submit(record());
     assert.equal(sent.length, 2);
-    assert.equal(sent[0].to, "info@anantorix.com");
-    assert.equal(sent[0].cc, "anantorix@gmail.com", "backup copy while info@ is set up");
+    assert.equal(sent[0].to, COMPANY_CONTACT.email);
+    assert.equal(sent[0].cc, COMPANY_CONTACT.leadBackupEmail || undefined, "backup copy only when configured");
     assert.equal(sent[1].cc, undefined, "the customer confirmation is not copied");
     assert.deepEqual(sent[0].from, { name: "Test Person via Anantorix website", address: "sender@example.com" });
     assert.equal(sent[0].replyTo, "test@example.com");
