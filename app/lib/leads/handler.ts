@@ -1,13 +1,14 @@
 import { validateLead } from "./validate";
 import { buildLeadRecord, type LeadSubmissionService } from "./service";
 import { clientKey, type RateLimiter } from "./rateLimit";
+import { COMPANY_CONTACT } from "../../content/contact";
 
 // Start a Project submission handler. Framework-free (standard Request/Response), so it can be tested with a
 // fake delivery service and rate limiter. Order: origin, content type, size, JSON, rate limit, honeypot,
 // validation, delivery. Success is reported only after delivery resolves; any delivery error returns 502 with
 // a generic message (no provider details reach the visitor).
 export const MAX_BYTES = 16 * 1024;
-export const DELIVERY_FAILED = "We could not send your brief just now. Please try again, or email anantorix@gmail.com.";
+export const DELIVERY_FAILED = `We could not send your brief just now. Please try again, or email ${COMPANY_CONTACT.email}.`;
 
 export type HandlerDeps = { delivery: LeadSubmissionService; allow: RateLimiter };
 

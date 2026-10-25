@@ -7,6 +7,7 @@ import Section from "../../components/layout/Section";
 import Card from "../../components/ui/Card";
 import { agents } from "../../content/agents";
 import { services } from "../../content/services";
+import { COMPANY_CONTACT } from "../../content/contact";
 
 // Confirmation page. Not indexable. Disallowed in robots.txt as well.
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
 const nextSteps = [
   "We have received your brief and will review the details you shared.",
-  "Check your inbox for a confirmation email. If it has not arrived, check your spam folder or email anantorix@gmail.com.",
+  `Check your inbox for a confirmation email. If it has not arrived, check your spam folder or email ${COMPANY_CONTACT.email}.`,
   "If the fit is right, we will agree the scope and the next step with you.",
 ];
 

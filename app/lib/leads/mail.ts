@@ -24,9 +24,19 @@ function gmailSender(): MailSender {
     throw new LeadDeliveryError("mail-not-configured");
   }
   if (!transporter) {
-    transporter = nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
+    transporter = nodemailer.createTransport(smtpOptions(user, pass));
   }
   return { user, transport: transporter };
+}
+
+// Mail server. Default: Gmail / Google Workspace (smtp.gmail.com), which works for both @gmail.com and
+// Workspace mailboxes such as info@anantorix.com. For another provider set SMTP_HOST (and optionally SMTP_PORT,
+// default 465 over SSL), e.g. SMTP_HOST=smtp.hostinger.com for a Hostinger mailbox.
+export function smtpOptions(user: string, pass: string) {
+  const host = process.env.SMTP_HOST?.trim();
+  if (!host) return { service: "gmail", auth: { user, pass } };
+  const port = Number(process.env.SMTP_PORT) || 465;
+  return { host, port, secure: port === 465, auth: { user, pass } };
 }
 
 // Only error codes are kept for logs. SMTP responses can echo account details, so they are not logged.
@@ -70,7 +80,7 @@ export function createMailDelivery(getSender: () => MailSender = gmailSender, re
       const { user, transport } = getSender();
 
       try {
-        await sendWithRetry(transport, { from: { name: notificationSenderName(record.name), address: user }, to: COMPANY_CONTACT.email, replyTo: record.email, ...internalNotification(record) }, retryDelayMs);
+        await sendWithRetry(transport, { from: { name: notificationSenderName(record.name), address: user }, to: COMPANY_CONTACT.email, cc: COMPANY_CONTACT.leadBackupEmail || undefined, replyTo: record.email, ...internalNotification(record) }, retryDelayMs);
       } catch (error) {
         console.error("[lead] internal notification failed", { code: safeCode(error), reference: record.id });
         throw new LeadDeliveryError("notification-failed");

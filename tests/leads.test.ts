@@ -171,7 +171,7 @@ describe("email delivery (fake transport)", () => {
     assert.ok(v.ok);
     return buildLeadRecord(v.data);
   };
-  type Sent = { to: string; subject: string; replyTo?: string; from?: unknown };
+  type Sent = { to: string; cc?: string; subject: string; replyTo?: string; from?: unknown };
   const sender = (behaviour: (n: number) => void): { getSender: () => MailSender; sent: Sent[] } => {
     const sent: Sent[] = [];
     let n = 0;
@@ -182,7 +182,7 @@ describe("email delivery (fake transport)", () => {
         transport: {
           sendMail: (async (mail: Sent) => {
             behaviour(++n);
-            sent.push({ to: mail.to, subject: mail.subject, replyTo: mail.replyTo, from: mail.from });
+            sent.push({ to: mail.to, cc: mail.cc, subject: mail.subject, replyTo: mail.replyTo, from: mail.from });
             return {};
           }) as never,
         },
@@ -194,7 +194,9 @@ describe("email delivery (fake transport)", () => {
     const { getSender, sent } = sender(() => {});
     await createMailDelivery(getSender, 0).submit(record());
     assert.equal(sent.length, 2);
-    assert.equal(sent[0].to, "anantorix@gmail.com");
+    assert.equal(sent[0].to, "info@anantorix.com");
+    assert.equal(sent[0].cc, "anantorix@gmail.com", "backup copy while info@ is set up");
+    assert.equal(sent[1].cc, undefined, "the customer confirmation is not copied");
     assert.deepEqual(sent[0].from, { name: "Test Person via Anantorix website", address: "sender@example.com" });
     assert.equal(sent[0].replyTo, "test@example.com");
     assert.match(sent[0].subject, /^New project brief: CRM \([0-9A-F]{8}\)$/);
