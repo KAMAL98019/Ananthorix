@@ -44,7 +44,8 @@ export function Select({ className, children, ...props }: React.SelectHTMLAttrib
   );
 }
 
-// The whole label row is the touch target (at least 44px tall).
+// The whole label row is the touch target (at least 44px tall). The label carries equal top and bottom padding, so
+// the control and text sit centred in an option card; the control lines up with the first line of longer labels.
 export function Checkbox({
   id,
   label,
@@ -52,8 +53,8 @@ export function Checkbox({
 }: Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & { id: string; label: React.ReactNode }) {
   return (
     <div className="flex min-h-11 items-start gap-3">
-      <input id={id} type="checkbox" {...props} className="mt-1 size-5 shrink-0 accent-deep-blue" />
-      <label htmlFor={id} className="type-small cursor-pointer text-fg-primary">
+      <input id={id} type="checkbox" {...props} className="mt-3 size-5 shrink-0 cursor-pointer accent-deep-blue" />
+      <label htmlFor={id} className="type-small flex-1 cursor-pointer py-3 text-fg-primary">
         {label}
       </label>
     </div>
@@ -67,8 +68,8 @@ export function Radio({
 }: Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & { id: string; label: React.ReactNode }) {
   return (
     <div className="flex min-h-11 items-start gap-3">
-      <input id={id} type="radio" {...props} className="mt-1 size-5 shrink-0 accent-deep-blue" />
-      <label htmlFor={id} className="type-small cursor-pointer text-fg-primary">
+      <input id={id} type="radio" {...props} className="mt-3 size-5 shrink-0 cursor-pointer accent-deep-blue" />
+      <label htmlFor={id} className="type-small flex-1 cursor-pointer py-3 text-fg-primary">
         {label}
       </label>
     </div>

@@ -172,7 +172,7 @@ export function ContactStep({ values, errors, onChange }: StepProps) {
         </div>
       </Fieldset>
 
-      <div className="rounded-input border border-line-strong bg-canvas p-4">
+      <div className="rounded-input border border-line-strong bg-canvas px-4 py-1">
         <Checkbox
           id="consent"
           name="consent"
