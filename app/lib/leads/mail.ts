@@ -53,6 +53,15 @@ async function sendWithRetry(transport: MailTransport, mail: nodemailer.SendMail
   }
 }
 
+// Inbox display name for a lead, e.g. "Ashek M via Anantorix website", so enquiries stand out from mail you
+// sent yourself. Only letters (with their combining marks), numbers, spaces and . ' - are kept (no quotes, brackets or line breaks in a header);
+// Nodemailer encodes the result. The address stays the authenticated account, so delivery is unchanged.
+export function notificationSenderName(name: string): string {
+  // \p{M} keeps combining marks, which Tamil and other Indian scripts need.
+  const safe = name.replace(/[^\p{L}\p{M}\p{N} .'-]/gu, "").replace(/\s+/g, " ").trim().slice(0, 60);
+  return safe ? `${safe} via Anantorix website` : "Anantorix website";
+}
+
 // Sends the internal notification first (required), then the lead's confirmation (best effort).
 // Resolves only when the notification has been accepted by the mail server; otherwise throws.
 export function createMailDelivery(getSender: () => MailSender = gmailSender, retryDelayMs = 1500): LeadSubmissionService {
@@ -61,7 +70,7 @@ export function createMailDelivery(getSender: () => MailSender = gmailSender, re
       const { user, transport } = getSender();
 
       try {
-        await sendWithRetry(transport, { from: `"Anantorix website" <${user}>`, to: COMPANY_CONTACT.email, replyTo: record.email, ...internalNotification(record) }, retryDelayMs);
+        await sendWithRetry(transport, { from: { name: notificationSenderName(record.name), address: user }, to: COMPANY_CONTACT.email, replyTo: record.email, ...internalNotification(record) }, retryDelayMs);
       } catch (error) {
         console.error("[lead] internal notification failed", { code: safeCode(error), reference: record.id });
         throw new LeadDeliveryError("notification-failed");

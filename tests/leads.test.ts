@@ -4,7 +4,7 @@ import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import { handleStartProject, DELIVERY_FAILED, MAX_BYTES } from "../app/lib/leads/handler";
 import { createRateLimiter } from "../app/lib/leads/rateLimit";
-import { createMailDelivery, LeadDeliveryError, type MailSender } from "../app/lib/leads/mail";
+import { createMailDelivery, LeadDeliveryError, notificationSenderName, type MailSender } from "../app/lib/leads/mail";
 import { buildLeadRecord, type LeadSubmissionService } from "../app/lib/leads/service";
 import { validateLead } from "../app/lib/leads/validate";
 import { internalNotification, leadConfirmation } from "../app/lib/leads/emailTemplates";
@@ -171,7 +171,7 @@ describe("email delivery (fake transport)", () => {
     assert.ok(v.ok);
     return buildLeadRecord(v.data);
   };
-  type Sent = { to: string; subject: string; replyTo?: string };
+  type Sent = { to: string; subject: string; replyTo?: string; from?: unknown };
   const sender = (behaviour: (n: number) => void): { getSender: () => MailSender; sent: Sent[] } => {
     const sent: Sent[] = [];
     let n = 0;
@@ -182,7 +182,7 @@ describe("email delivery (fake transport)", () => {
         transport: {
           sendMail: (async (mail: Sent) => {
             behaviour(++n);
-            sent.push({ to: mail.to, subject: mail.subject, replyTo: mail.replyTo });
+            sent.push({ to: mail.to, subject: mail.subject, replyTo: mail.replyTo, from: mail.from });
             return {};
           }) as never,
         },
@@ -195,6 +195,7 @@ describe("email delivery (fake transport)", () => {
     await createMailDelivery(getSender, 0).submit(record());
     assert.equal(sent.length, 2);
     assert.equal(sent[0].to, "anantorix@gmail.com");
+    assert.deepEqual(sent[0].from, { name: "Test Person via Anantorix website", address: "sender@example.com" });
     assert.equal(sent[0].replyTo, "test@example.com");
     assert.match(sent[0].subject, /^New project brief: CRM \([0-9A-F]{8}\)$/);
     assert.equal(sent[1].to, "test@example.com");
@@ -258,5 +259,15 @@ describe("attribution helpers", () => {
     assert.equal(externalReferrer("https://www.google.com/", "www.anantorix.com"), "https://www.google.com/");
     assert.equal(externalReferrer("not a url", "www.anantorix.com"), "");
     assert.equal(externalReferrer("", "www.anantorix.com"), "");
+  });
+});
+
+describe("notification sender name", () => {
+  test("shows the lead name and keeps headers safe", () => {
+    assert.equal(notificationSenderName("Ashek M"), "Ashek M via Anantorix website");
+    assert.equal(notificationSenderName("கமலேஷ் B"), "கமலேஷ் B via Anantorix website");
+    // Quotes, brackets, @, colons and line breaks are removed, so nothing can inject a header.
+    assert.equal(notificationSenderName("Evil\"<x@y.com>\r\nBcc: a@b.com"), "Evilxy.comBcc ab.com via Anantorix website");
+    assert.equal(notificationSenderName("<>\""), "Anantorix website");
   });
 });
