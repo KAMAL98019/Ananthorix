@@ -129,7 +129,7 @@ export const agents: AgentDef[] = [
   {
     slug: "crm-ai-agent",
     name: "CRM AI Agent",
-    metaTitle: "CRM AI Agent for Sales Teams",
+    metaTitle: "CRM AI Agent: AI Agents for Your CRM",
     metaDescription: "A CRM AI Agent that summarises customers, prioritises today's leads, drafts follow-ups, flags at-risk deals and writes a weekly pipeline brief.",
     eyebrow: "AI Agent · CRM",
     headline: "Your CRM, finally working for you.",

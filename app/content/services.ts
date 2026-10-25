@@ -582,7 +582,8 @@ export const services: ServiceDef[] = [
   {
     slug: "desktop-application-development",
     metaTitle: "Desktop Application Development",
-    metaDescription: "Desktop application development for Windows, macOS and cross-platform use, including offline work, billing, POS and hardware integration.",
+    metaDescription: "Desktop software development services for Windows, macOS and cross-platform: billing, POS, offline-first and hardware-integrated business applications.",
+    seoTitle: "Desktop Software Development Services",
     summary: "Reliable desktop software for offline, billing and hardware-heavy work.",
     eyebrow: "Product Engineering",
     h1: "Reliable desktop software for serious business work",
