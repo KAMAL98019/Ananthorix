@@ -1,4 +1,5 @@
 import { COMPANY_CONTACT } from "../content/contact";
+import { manifesto as MANIFESTO } from "../content/home";
 import type { Metadata } from "next";
 
 // Shared SEO utilities. Keep this small. Pages use these instead of hand-writing tags.
@@ -47,14 +48,21 @@ export function pageMetadata({ title, description, path, indexable = true }: Pag
 // India-only. Contact values come from the verified contact source only. No social profiles.
 // Stable id so Service and other schema can reference the same organization.
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+export const WEBSITE_ID = `${SITE_URL}/#website`;
+// Square brand mark for search engines (Google requires at least 112x112; the header wordmark is only 43px tall).
+export const LOGO = { url: `${SITE_URL}/images/brand/anantorix-logo-512.png`, width: 512, height: 512 };
 
+// One Organization entity, defined on the homepage. Other pages refer to it by ORGANIZATION_ID.
+// No sameAs: no official social profiles have been confirmed. Add only verified company profiles.
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": ORGANIZATION_ID,
     name: SITE_NAME,
-    url: SITE_URL,
+    alternateName: "Anantorix",
+    url: `${SITE_URL}/`,
+    slogan: MANIFESTO,
     // Languages match the call-language options offered in the Start a Project form.
     contactPoint: {
       "@type": "ContactPoint",
@@ -76,7 +84,8 @@ export function organizationJsonLd() {
       "Mobile app development",
       "SaaS product development",
     ],
-    logo: `${SITE_URL}/images/companylogo.png`,
+    logo: { "@type": "ImageObject", "@id": `${SITE_URL}/#logo`, url: LOGO.url, contentUrl: LOGO.url, width: LOGO.width, height: LOGO.height, caption: SITE_NAME },
+    image: { "@id": `${SITE_URL}/#logo` },
     description: POSITIONING,
     email: COMPANY_CONTACT.email,
     telephone: COMPANY_CONTACT.phoneE164,
@@ -94,8 +103,12 @@ export function webSiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: SITE_NAME,
-    url: SITE_URL,
+    alternateName: "Anantorix",
+    url: `${SITE_URL}/`,
+    inLanguage: "en-IN",
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }
 

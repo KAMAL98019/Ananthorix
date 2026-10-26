@@ -21,7 +21,7 @@ import FinalCta from "./components/site/sections/FinalCta";
 // Search-facing title and description (SEO brief, Oct 2026). On-page positioning copy is unchanged.
 const homeTitle = "Anantorix Technologies | AI & Software Development";
 const homeDescription =
-  "AI development, custom software, CRM and ERP systems, analytics dashboards, web applications and SaaS product development for businesses across India.";
+  "Anantorix Technologies builds intelligent digital systems, AI solutions, automation and custom software for modern businesses across India.";
 
 export const metadata: Metadata = {
   title: { absolute: homeTitle },

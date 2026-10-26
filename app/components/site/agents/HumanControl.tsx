@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Container from "../../layout/Container";
 import Section from "../../layout/Section";
 import Card from "../../ui/Card";
@@ -47,6 +48,11 @@ export default function HumanControl({
               </Card>
             </div>
           </div>
+          <p className="type-small mt-8">
+            <Link href="/security-and-data" className="inline-flex min-h-11 items-center font-semibold text-deep-blue underline underline-offset-4 hover:text-indigo">
+              How we handle data, access and approvals
+            </Link>
+          </p>
         </div>
       </Container>
     </Section>

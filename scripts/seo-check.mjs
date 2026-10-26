@@ -113,5 +113,42 @@ for (const path of [...internal].sort()) {
 }
 ok(`${internal.size} distinct internal links resolve`);
 
+// 7. Brand identity: one consistent entity, a usable logo, the exact company name
+console.log("Brand identity");
+const home = await (await get("/")).text();
+const graph = [...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].flatMap((m) => {
+  const d = JSON.parse(m[1]);
+  return Array.isArray(d) ? d : [d];
+});
+const org = graph.find((x) => x["@type"] === "Organization");
+const site = graph.find((x) => x["@type"] === "WebSite");
+if (!org) fail("homepage has no Organization JSON-LD");
+if (!site) fail("homepage has no WebSite JSON-LD");
+if (org) {
+  if (org.name !== "Anantorix Technologies") fail(`Organization name is "${org.name}"`);
+  if (org["@id"] !== `${SITE}/#organization`) fail(`Organization @id is ${org["@id"]}`);
+  if (org.url !== `${SITE}/`) fail(`Organization url is ${org.url}`);
+  const logoUrl = typeof org.logo === "string" ? org.logo : org.logo?.url;
+  const logoRes = await get(toLocal(logoUrl ?? ""));
+  if (logoRes.status !== 200) fail(`logo ${logoUrl} returns ${logoRes.status}`);
+  else {
+    const png = Buffer.from(await logoRes.arrayBuffer());
+    const [w, h] = [png.readUInt32BE(16), png.readUInt32BE(20)];
+    if (w < 112 || h < 112) fail(`logo is ${w}x${h}; Google requires at least 112x112`);
+  }
+}
+if (site && site.publisher?.["@id"] !== org?.["@id"]) fail("WebSite publisher does not reference the Organization @id");
+const homeTitle = decode(pick(home, /<title>([\s\S]*?)<\/title>/));
+if (!homeTitle.startsWith("Anantorix Technologies")) fail(`homepage title does not lead with the brand: ${homeTitle}`);
+if (!/<img alt="Anantorix Technologies"/.test(home)) fail("header logo has no brand alt text");
+const manifest = await (await get("/site.webmanifest")).json();
+if (!manifest.name || !manifest.short_name) fail("site.webmanifest name/short_name empty");
+for (const loc of locs) {
+  const html = await (await get(toLocal(loc))).text();
+  if (/anantax/i.test(html)) fail(`${loc} mentions AnantaX`);
+  for (const m of html.matchAll(/"@type":"Organization","@id":"([^"]+)"/g)) if (m[1] !== `${SITE}/#organization`) fail(`${loc} uses a different Organization @id: ${m[1]}`);
+}
+ok("Organization + WebSite linked, logo >=112px and reachable, brand-first title, logo alt, manifest, no other company names");
+
 console.log(failures.length ? `\nFAILED (${failures.length}):\n - ${failures.join("\n - ")}` : "\nAll SEO checks passed.");
 process.exit(failures.length ? 1 : 0);

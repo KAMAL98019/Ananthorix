@@ -147,15 +147,15 @@ export default function SiteHeader() {
           scrolled ? "py-3" : "py-5",
         )}
       >
+        {/* The logo alt text names the company; it is also the link's accessible name. */}
         <Link
           href="/"
-          aria-label="Anantorix Technologies, home"
           onClick={closeMenus}
           className="inline-flex shrink-0 rounded-tag"
         >
           <Image
             src="/images/companylogo.png"
-            alt=""
+            alt="Anantorix Technologies"
             width={209}
             height={43}
             priority

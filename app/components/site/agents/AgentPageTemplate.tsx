@@ -17,7 +17,7 @@ import { hub, pricingApproach, type AgentDef } from "../../../content/agents";
 import { startProjectHref } from "../../../lib/leads/context";
 import { START_PROJECT } from "../../../content/routes";
 import { isLive } from "../../../content/services";
-import { breadcrumbJsonLd, SITE_NAME, SITE_URL } from "../../../lib/seo";
+import { breadcrumbJsonLd, ORGANIZATION_ID, SITE_NAME, SITE_URL } from "../../../lib/seo";
 
 // The one reusable AI Agent product page. Section order follows the Phase 4 structure.
 export default function AgentPageTemplate({ agent }: { agent: AgentDef }) {
@@ -166,7 +166,7 @@ function softwareApplicationJsonLd(agent: AgentDef) {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     url: `${SITE_URL}/ai-agents/${agent.slug}`,
-    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    provider: { "@type": "Organization", "@id": ORGANIZATION_ID, name: SITE_NAME, url: SITE_URL },
   };
 }
 

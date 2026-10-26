@@ -11,8 +11,8 @@ export default function SiteFooter() {
       <Container className="py-16 lg:py-20">
         <Grid className="gap-y-12">
           <div className="col-span-4 md:col-span-8 lg:col-span-4">
-            <Link href="/" aria-label="Anantorix Technologies, home" className="inline-flex rounded-tag">
-              <Image src="/images/companylogo.png" alt="" width={209} height={43} className="h-auto w-[180px]" />
+            <Link href="/" className="inline-flex rounded-tag">
+              <Image src="/images/companylogo.png" alt="Anantorix Technologies" width={209} height={43} className="h-auto w-[180px]" />
             </Link>
             <p className="type-body mt-6 max-w-sm text-fg-secondary">
               Anantorix builds intelligent digital systems for modern businesses.

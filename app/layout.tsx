@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: "%s | Anantorix Technologies",
   },
   description:
-    "AI development, custom software, CRM and ERP systems, analytics dashboards, web applications and SaaS product development for businesses across India.",
+    "Anantorix Technologies builds intelligent digital systems, AI solutions, automation and custom software for modern businesses across India.",
   authors: [{ name: "Anantorix Technologies" }],
   creator: "Anantorix Technologies",
   publisher: "Anantorix Technologies",
@@ -85,7 +85,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en-IN"
       className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="flex min-h-full flex-col bg-canvas text-fg-primary" suppressHydrationWarning>
