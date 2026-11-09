@@ -15,6 +15,8 @@ export type SitemapRoute = {
 
 export const indexableRoutes: SitemapRoute[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
+  { path: "/pricing", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/seo-services", priority: 0.9, changeFrequency: "weekly" },
   { path: "/services", priority: 0.9, changeFrequency: "monthly" },
   { path: "/services/ai-solutions", priority: 0.8, changeFrequency: "monthly" },
   { path: "/services/ai-automation", priority: 0.8, changeFrequency: "monthly" },

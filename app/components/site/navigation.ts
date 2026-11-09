@@ -13,6 +13,7 @@ export type NavItem = {
 export const primaryNav: NavItem[] = [
   { label: "Solutions", href: "/services", children: services },
   { label: "AI Agents", href: "/ai-agents", children: agentRoutes, allLabel: "All AI Agents" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Company", href: "/about", children: companyRoutes, allLabel: "Company overview" },
 ];
 
@@ -25,6 +26,8 @@ export const headerCtas = {
 export const footerExploreNav: RouteLink[] = [
   { label: "Solutions", href: "/services" },
   { label: "AI Agents", href: "/ai-agents" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "SEO Services", href: "/seo-services" },
   { label: "About", href: "/about" },
 ];
 

@@ -1,7 +1,18 @@
 import nodemailer from "nodemailer";
 import { COMPANY_CONTACT } from "../../content/contact";
-import { internalNotification, leadConfirmation } from "./emailTemplates";
+import {
+  internalNotification,
+  leadConfirmation,
+  quoteConfirmation,
+  quoteInternalNotification,
+  seoConfirmation,
+  seoInternalNotification,
+} from "./emailTemplates";
 import type { LeadSubmissionService } from "./service";
+import type { LeadRecord, QuoteRecord } from "./schema";
+import type { SeoEnquiryRecord } from "./seoSchema";
+
+export type DeliverableRecord = LeadRecord | QuoteRecord | SeoEnquiryRecord;
 
 // Lead delivery through the project's existing Nodemailer setup (Gmail SMTP).
 // Credentials come only from EMAIL_USER and EMAIL_PASS on the server. They are never logged or sent to the browser.
@@ -74,20 +85,34 @@ export function notificationSenderName(name: string): string {
 
 // Sends the internal notification first (required), then the lead's confirmation (best effort).
 // Resolves only when the notification has been accepted by the mail server; otherwise throws.
-export function createMailDelivery(getSender: () => MailSender = gmailSender, retryDelayMs = 1500): LeadSubmissionService {
+export function createMailDelivery(getSender: () => MailSender = gmailSender, retryDelayMs = 1500): LeadSubmissionService<DeliverableRecord> {
   return {
-    async submit(record) {
+    async submit(record: DeliverableRecord) {
       const { user, transport } = getSender();
 
+      const internal =
+        record.formType === "seo-enquiry"
+          ? seoInternalNotification(record)
+          : record.formType === "quote-enquiry"
+            ? quoteInternalNotification(record)
+            : internalNotification(record);
+
+      const confirmation =
+        record.formType === "seo-enquiry"
+          ? seoConfirmation(record)
+          : record.formType === "quote-enquiry"
+            ? quoteConfirmation(record)
+            : leadConfirmation(record);
+
       try {
-        await sendWithRetry(transport, { from: { name: notificationSenderName(record.name), address: user }, to: COMPANY_CONTACT.email, cc: COMPANY_CONTACT.leadBackupEmail || undefined, replyTo: record.email, ...internalNotification(record) }, retryDelayMs);
+        await sendWithRetry(transport, { from: { name: notificationSenderName(record.name), address: user }, to: COMPANY_CONTACT.email, cc: COMPANY_CONTACT.leadBackupEmail || undefined, replyTo: record.email, ...internal }, retryDelayMs);
       } catch (error) {
         console.error("[lead] internal notification failed", { code: safeCode(error), reference: record.id });
         throw new LeadDeliveryError("notification-failed");
       }
 
       try {
-        await sendWithRetry(transport, { from: `"Anantorix Technologies" <${user}>`, to: record.email, replyTo: COMPANY_CONTACT.email, ...leadConfirmation(record) }, retryDelayMs);
+        await sendWithRetry(transport, { from: `"Anantorix Technologies" <${user}>`, to: record.email, replyTo: COMPANY_CONTACT.email, ...confirmation }, retryDelayMs);
       } catch (error) {
         console.error("[lead] confirmation email failed", { code: safeCode(error), reference: record.id });
       }

@@ -6,9 +6,14 @@ import {
   LANGUAGES,
   LIMITS,
   NEEDS,
+  QUOTE_BUDGETS,
+  QUOTE_CURRENCIES,
+  QUOTE_SERVICES,
+  QUOTE_TIMELINES,
   SITUATIONS,
   TIMELINES,
   type LeadInput,
+  type QuoteInput,
 } from "./schema";
 
 // Server-side validation is authoritative. Client checks are only for UX.
@@ -129,6 +134,69 @@ export function validateLead(raw: unknown): ValidationResult {
       utm: cleanUtm(input.utm),
       contextService: cleanText(input.contextService, 100),
       contextAgent: cleanText(input.contextAgent, 100),
+    },
+  };
+}
+
+export type QuoteValidationResult =
+  | { ok: true; data: QuoteInput }
+  | { ok: false; errors: Record<string, string> };
+
+export function validateQuote(raw: unknown): QuoteValidationResult {
+  if (!raw || typeof raw !== "object") {
+    return { ok: false, errors: { form: "Please complete the quote request and try again." } };
+  }
+  const input = raw as Record<string, unknown>;
+  const errors: Record<string, string> = {};
+
+  const name = cleanText(input.name, LIMITS.name);
+  if (name.length < 2) errors.name = "Enter your full name.";
+
+  const company = cleanText(input.company, LIMITS.company);
+  if (company.length < 2) errors.company = "Enter your company name.";
+
+  const email = cleanText(input.email, LIMITS.email).toLowerCase();
+  if (!EMAIL.test(email)) errors.email = "Enter a valid work email address.";
+
+  const phone = cleanText(input.phone, LIMITS.phone);
+  if (!phone || !/^\+?[0-9\s()-]{7,20}$/.test(phone)) {
+    errors.phone = "Enter a valid phone or WhatsApp number.";
+  }
+
+  const service = cleanEnum(input.service, allowed(QUOTE_SERVICES));
+  if (!service) errors.service = "Select the service required.";
+
+  const currency = cleanEnum(input.currency, new Set<string>(QUOTE_CURRENCIES)) || "INR";
+  const budget = cleanEnum(input.budget, allowed(QUOTE_BUDGETS));
+  if (!budget) errors.budget = "Select an estimated budget range.";
+
+  const timeline = cleanEnum(input.timeline, allowed(QUOTE_TIMELINES));
+  if (!timeline) errors.timeline = "Select your expected timeline.";
+
+  const requirements = cleanText(input.requirements, LIMITS.requirements, true);
+  if (requirements.length < 10) {
+    errors.requirements = "Please describe your project requirements in at least 10 characters.";
+  }
+
+  if (Object.keys(errors).length > 0) return { ok: false, errors };
+
+  return {
+    ok: true,
+    data: {
+      name,
+      company,
+      email,
+      phone,
+      service,
+      budget,
+      currency,
+      timeline,
+      requirements,
+      website: cleanText(input.website, 200),
+      sourcePage: cleanText(input.sourcePage, LIMITS.sourcePage),
+      landingPage: cleanText(input.landingPage, LIMITS.landingPage),
+      referrer: cleanText(input.referrer, LIMITS.referrer),
+      utm: cleanUtm(input.utm),
     },
   };
 }

@@ -23,3 +23,17 @@ export function trackLeadGenerated(params: { leadId: string; needs: string[]; ut
   });
   return true;
 }
+
+export function trackQuoteGenerated(params: { quoteId: string; service: string; budget: string; utmSource?: string; landingPage?: string }): boolean {
+  const send = gtag();
+  if (!send) return false;
+  send("event", "generate_lead", {
+    form_name: "quote_enquiry",
+    lead_id: params.quoteId,
+    lead_needs: params.service,
+    lead_budget: params.budget,
+    lead_utm_source: params.utmSource ?? "",
+    lead_landing_page: params.landingPage ?? "",
+  });
+  return true;
+}

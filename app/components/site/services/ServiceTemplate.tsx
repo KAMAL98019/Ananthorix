@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Container from "../../layout/Container";
 import Grid from "../../layout/Grid";
 import Section from "../../layout/Section";
@@ -76,6 +77,9 @@ export default function ServiceTemplate({ service }: { service: ServiceDef }) {
       {/* Service-specific section (in-depth) */}
       <UniqueSection service={service} />
 
+      {/* Indicative Pricing & Implementation Packages */}
+      <ServicePricingSection service={service} />
+
       {/* 7. How we deliver */}
       <Section labelledBy={`${service.slug}-delivery`}>
         <Container>
@@ -120,9 +124,68 @@ export default function ServiceTemplate({ service }: { service: ServiceDef }) {
         headline="Tell us what your business needs."
         body="Start with a short brief. We will tell you what is possible and how we would approach it."
         primary={{ label: "Start a Project", href: startProjectHref({ service: service.slug }) }}
-        secondary={{ label: "See all services", href: "/services" }}
+        secondary={
+          service.pricingOverview
+            ? { label: "View Indicative Pricing", href: service.pricingOverview.ctaHref ?? "/pricing" }
+            : { label: "See all services", href: "/services" }
+        }
       />
     </>
+  );
+}
+
+function ServicePricingSection({ service }: { service: ServiceDef }) {
+  if (!service.pricingOverview) return null;
+  const p = service.pricingOverview;
+  return (
+    <Section tone="surface1" labelledBy={`${service.slug}-pricing`}>
+      <Container>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <SectionHeading
+            id={`${service.slug}-pricing`}
+            eyebrow={p.eyebrow ?? "Indicative Investment"}
+            title={p.title}
+            lead={p.lead}
+          />
+          <Link
+            href={p.ctaHref ?? "/pricing"}
+            className="inline-flex items-center gap-1.5 type-small font-semibold text-deep-blue hover:text-indigo hover:underline shrink-0"
+          >
+            {p.ctaLabel ?? "View Full Pricing"} →
+          </Link>
+        </div>
+
+        <Grid className="mt-12 gap-y-6">
+          {p.tiers.map((tier) => (
+            <div key={tier.name} className="col-span-4 md:col-span-6 lg:col-span-3">
+              <Card kind="pricing" as="article" className="h-full bg-canvas flex flex-col justify-between">
+                <div>
+                  <h3 className="type-h4 text-fg-primary">{tier.name}</h3>
+                  <div className="my-4 border-y border-line py-3">
+                    <span className="type-h3 font-bold text-deep-blue">{tier.range}</span>
+                  </div>
+                  <p className="type-small text-fg-secondary">{tier.note}</p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-line">
+                  <Link
+                    href={p.ctaHref ?? "/pricing"}
+                    className="inline-flex min-h-11 w-full items-center justify-center rounded-button border border-line-strong bg-canvas px-4 text-small font-semibold text-deep-blue hover:bg-surface-2 transition-colors"
+                  >
+                    View Details & Quote
+                  </Link>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </Grid>
+
+        {p.disclaimer && (
+          <p className="type-small mt-6 text-fg-secondary italic">
+            * {p.disclaimer}
+          </p>
+        )}
+      </Container>
+    </Section>
   );
 }
 

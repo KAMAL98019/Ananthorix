@@ -37,7 +37,7 @@ export const integrationCategories = ["Website chat", "WhatsApp", "Email", "CRM"
 
 export const integrationNote = "Can connect with the tools your business already uses. Connections are agreed during setup, based on the tools you run.";
 
-export const pricingApproach = "Pricing is tailored to the workflow, integrations and level of support required.";
+export const pricingApproach = "Indicative implementation packages range from ₹20,000–₹35,000 for AI chatbots, ₹25,000–₹50,000 for lead automation, to ₹50,000–₹1,50,000+ for custom assistants and autonomous workflows.";
 
 export const setupSteps = [
   {

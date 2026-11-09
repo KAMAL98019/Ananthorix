@@ -12,6 +12,7 @@ import EngineeringApproach from "./components/site/sections/EngineeringApproach"
 import HowWeWork from "./components/site/sections/HowWeWork";
 import WhyAnantorix from "./components/site/sections/WhyAnantorix";
 import EngagementModels from "./components/site/sections/EngagementModels";
+import PricingGlimpse from "./components/site/sections/PricingGlimpse";
 import FaqSection from "./components/site/sections/FaqSection";
 import FinalCta from "./components/site/sections/FinalCta";
 
@@ -59,6 +60,7 @@ export default function Home() {
       <OutcomePillars />
       <AgentsShowcase />
       <CapabilitiesUniverse />
+      <PricingGlimpse />
       <ProjectShowcase />
       <TechnologyStack />
       <EngineeringApproach />

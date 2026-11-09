@@ -38,8 +38,8 @@ const validBrief = {
 
 function recordingDelivery(fail = false) {
   const received: LeadRecord[] = [];
-  const delivery: LeadSubmissionService = {
-    async submit(record) {
+  const delivery: LeadSubmissionService<LeadRecord> = {
+    async submit(record: LeadRecord) {
       if (fail) throw new Error("SMTP down: 535 auth failed for user secret@example.com");
       received.push(record);
     },
@@ -61,7 +61,7 @@ function request(body: unknown, init: { headers?: Record<string, string>; raw?: 
   });
 }
 
-const deps = (delivery: LeadSubmissionService) => ({ delivery, allow: createRateLimiter() });
+const deps = (delivery: LeadSubmissionService<LeadRecord>) => ({ delivery, allow: createRateLimiter() });
 
 describe("POST /api/start-a-project handler", () => {
   test("valid brief is delivered and returns 200 with a reference", async () => {

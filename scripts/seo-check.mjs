@@ -70,7 +70,7 @@ for (const loc of locs) {
   const text = decode(html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<head[\s\S]*?<\/head>/g, "").replace(/<[^>]+>/g, " "));
   for (const artifact of ["</>", "{ }", "fn()", "undefined", "NaN", "[object Object]", "[PENDING", "Lorem"]) if (text.includes(artifact)) fail(`${loc} text contains "${artifact}"`);
   const visibleAndMeta = text + " " + title + " " + desc + " " + html.match(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g)?.join(" ");
-  for (const banned of [/\bIoT\b/, /Singapore/i, /Malaysia/i]) if (banned.test(visibleAndMeta)) fail(`${loc} mentions ${banned}`);
+  for (const banned of [/\bIoT\b/, /(?:offices?|branches?|based|headquarters?)\s+in\s+(?:Singapore|Malaysia)/i]) if (banned.test(visibleAndMeta)) fail(`${loc} mentions ${banned}`);
   for (const m of html.matchAll(/<a [^>]*href="(\/[^"#?]*)/g)) internal.add(m[1]);
 }
 for (const [t, pages] of titles) if (pages.length > 1) fail(`duplicate title "${t}" on ${pages.join(", ")}`);

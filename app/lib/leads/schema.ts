@@ -27,7 +27,77 @@ export const TIMELINES = [
   { value: "exploring", label: "Exploring" },
 ] as const;
 
-export const BUDGETS = [{ value: "prefer-to-discuss", label: "Prefer to discuss" }] as const;
+export const BUDGETS = [
+  { value: "below-25k", label: "Below ₹25,000" },
+  { value: "25k-50k", label: "₹25,000–₹50,000" },
+  { value: "50k-75k", label: "₹50,000–₹75,000" },
+  { value: "75k-150k", label: "₹75,000–₹1,50,000" },
+  { value: "above-150k", label: "₹1,50,000+" },
+  { value: "need-consultation", label: "Need consultation" },
+  { value: "prefer-to-discuss", label: "Prefer to discuss" },
+] as const;
+
+export const QUOTE_SERVICES = [
+  { value: "website-development", label: "Website Development" },
+  { value: "ecommerce-development", label: "E-commerce Development" },
+  { value: "crm-development", label: "CRM Development" },
+  { value: "erp-development", label: "ERP Development" },
+  { value: "ai-automation", label: "AI Automation" },
+  { value: "custom-software", label: "Custom Software" },
+  { value: "other", label: "Other" },
+] as const;
+
+export const QUOTE_BUDGETS = [
+  { value: "below-25k", label: "Below ₹25,000" },
+  { value: "25k-50k", label: "₹25,000–₹50,000" },
+  { value: "50k-75k", label: "₹50,000–₹75,000" },
+  { value: "75k-150k", label: "₹75,000–₹1,50,000" },
+  { value: "above-150k", label: "₹1,50,000+" },
+  { value: "need-consultation", label: "Need consultation" },
+] as const;
+
+// Same budget bands as QUOTE_BUDGETS, labelled in the currency the visitor chose on the pricing page.
+const QUOTE_BUDGETS_BY_CURRENCY: Record<string, readonly Option[]> = {
+  INR: QUOTE_BUDGETS,
+  USD: [
+    { value: "below-25k", label: "Below $400" },
+    { value: "25k-50k", label: "$400–$800" },
+    { value: "50k-75k", label: "$800–$1,200" },
+    { value: "75k-150k", label: "$1,200–$2,400" },
+    { value: "above-150k", label: "$2,400+" },
+    { value: "need-consultation", label: "Need consultation" },
+  ],
+  SGD: [
+    { value: "below-25k", label: "Below S$515" },
+    { value: "25k-50k", label: "S$515–S$1,025" },
+    { value: "50k-75k", label: "S$1,025–S$1,550" },
+    { value: "75k-150k", label: "S$1,550–S$3,075" },
+    { value: "above-150k", label: "S$3,075+" },
+    { value: "need-consultation", label: "Need consultation" },
+  ],
+  MYR: [
+    { value: "below-25k", label: "Below RM 1,625" },
+    { value: "25k-50k", label: "RM 1,625–RM 3,250" },
+    { value: "50k-75k", label: "RM 3,250–RM 4,875" },
+    { value: "75k-150k", label: "RM 4,875–RM 9,750" },
+    { value: "above-150k", label: "RM 9,750+" },
+    { value: "need-consultation", label: "Need consultation" },
+  ],
+};
+
+export const QUOTE_CURRENCIES = ["INR", "USD", "SGD", "MYR"] as const;
+
+export function quoteBudgetOptions(currency?: string): readonly Option[] {
+  return (currency && QUOTE_BUDGETS_BY_CURRENCY[currency]) || QUOTE_BUDGETS;
+}
+
+export const QUOTE_TIMELINES = [
+  { value: "asap", label: "ASAP" },
+  { value: "1-3-months", label: "1–3 months" },
+  { value: "3-6-months", label: "3–6 months" },
+  { value: "flexible", label: "Flexible" },
+  { value: "exploring", label: "Exploring" },
+] as const;
 
 export const COMPANY_SIZES = [
   { value: "1-10", label: "1–10 people" },
@@ -59,6 +129,7 @@ export function labelFor(options: readonly Option[], value: string): string {
 
 export const LIMITS = {
   description: 2000,
+  requirements: 3000,
   name: 100,
   email: 254,
   phone: 20,
@@ -68,6 +139,43 @@ export const LIMITS = {
   sourcePage: 200,
   landingPage: 200,
 } as const;
+
+export type QuoteInput = {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  service: string;
+  budget: string;
+  currency?: string;
+  timeline: string;
+  requirements: string;
+  website: string; // Honeypot
+  sourcePage: string;
+  landingPage: string;
+  referrer: string;
+  utm: Record<string, string>;
+};
+
+export type QuoteRecord = {
+  id: string;
+  formType: "quote-enquiry";
+  timestamp: string;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  service: string;
+  budget: string;
+  currency?: string;
+  timeline: string;
+  requirements: string;
+  market: string;
+  sourcePage: string;
+  landingPage: string;
+  referrer: string;
+  utm: Record<string, string>;
+};
 
 export type LeadInput = {
   needs: string[];

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Search } from "lucide-react";
 import Breadcrumbs from "../blocks/Breadcrumbs";
 import CosmicBanner, { CosmicEyebrow, cosmicPrimary, cosmicSecondary } from "../blocks/CosmicBanner";
 import Container from "../../layout/Container";
@@ -41,6 +42,9 @@ export default function ServicesHub() {
                 <div className="mt-10 flex flex-wrap items-center gap-3">
                   <Link href={START_PROJECT.href} className={cosmicPrimary}>
                     {START_PROJECT.label} <span aria-hidden="true">→</span>
+                  </Link>
+                  <Link href="/pricing" className={cosmicSecondary}>
+                    View Pricing
                   </Link>
                   <Link href="/ai-agents" className={cosmicSecondary}>
                     See AI Agents
@@ -132,6 +136,27 @@ export default function ServicesHub() {
           </Section>
         );
       })}
+
+      <Section tone="surface2" labelledBy="family-seo">
+        <Container>
+          <Link href="/seo-services" className="group block rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+            <Card kind="service" as="div" className="hover-lift group-hover:shadow-floating">
+              <div className="flex flex-col gap-5 md:flex-row md:items-center">
+                <span aria-hidden="true" className="inline-flex size-12 shrink-0 items-center justify-center rounded-button bg-gradient-to-br from-purple to-deep-blue text-starlight">
+                  <Search className="size-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h2 id="family-seo" className="type-h3 text-fg-primary group-hover:text-indigo">SEO Services</h2>
+                  <p className="type-small mt-2">Technical SEO, on-page optimisation, local search and monthly reporting, so the right customers can find what you build.</p>
+                </div>
+                <span aria-hidden="true" className="inline-flex items-center gap-1 font-semibold text-purple">
+                  View SEO packages <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </span>
+              </div>
+            </Card>
+          </Link>
+        </Container>
+      </Section>
     </>
   );
 }

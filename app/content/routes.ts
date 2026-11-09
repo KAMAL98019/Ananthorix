@@ -22,6 +22,7 @@ export const services: RouteLink[] = [
   { label: "Desktop Application Development", href: "/services/desktop-application-development" },
   { label: "UI/UX Design", href: "/services/ui-ux-design" },
   { label: "MVP Development", href: "/services/mvp-development" },
+  { label: "SEO Services", href: "/seo-services" },
 ];
 
 export const agentRoutes: RouteLink[] = [

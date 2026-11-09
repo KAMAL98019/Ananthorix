@@ -1,6 +1,21 @@
 import { COMPANY_CONTACT } from "../../content/contact";
 import { SITE_URL } from "../seo";
-import { BUDGETS, COMPANY_SIZES, CONTACT_METHODS, LANGUAGES, labelFor, NEEDS, SITUATIONS, TIMELINES, type LeadRecord } from "./schema";
+import {
+  BUDGETS,
+  COMPANY_SIZES,
+  CONTACT_METHODS,
+  LANGUAGES,
+  labelFor,
+  NEEDS,
+  quoteBudgetOptions,
+  QUOTE_SERVICES,
+  QUOTE_TIMELINES,
+  SITUATIONS,
+  TIMELINES,
+  type LeadRecord,
+  type QuoteRecord,
+} from "./schema";
+import { SEO_BUDGET_OPTIONS, SEO_PACKAGES_OPTIONS, type SeoEnquiryRecord } from "./seoSchema";
 
 // Branded email templates for the Start a Project flow.
 // - leadConfirmation: sent to the person who submitted the brief.
@@ -215,4 +230,256 @@ ${detailTable(source)}`,
 
   // Fixed labels only in the subject (need labels come from the allowlist, never free text).
   return { subject: `New project brief: ${needs} (${ref})`, text, html };
+}
+
+// Sent to the person who submitted a quote enquiry.
+export function quoteConfirmation(r: QuoteRecord): EmailContent {
+  const name = firstName(r.name);
+  const ref = shortReference(r.id);
+  const serviceLabel = labelFor(QUOTE_SERVICES, r.service);
+  const budgetLabel = labelFor(quoteBudgetOptions(r.currency), r.budget);
+  const timelineLabel = labelFor(QUOTE_TIMELINES, r.timeline);
+
+  const summary = [
+    { label: "Service requested", value: serviceLabel },
+    { label: "Estimated budget", value: budgetLabel },
+    { label: "Expected timeline", value: timelineLabel },
+    { label: "Company", value: r.company },
+    { label: "Phone / WhatsApp", value: r.phone },
+    { label: "Reference", value: ref },
+  ];
+
+  const html = layout({
+    preheader: "We have received your project quote enquiry and will prepare an indicative estimate.",
+    eyebrow: "Quote enquiry received",
+    title: `Thank you, ${name}.`,
+    body: `
+<p style="margin:0 0 16px;">We have received your quote enquiry for <strong>${escapeHtml(serviceLabel)}</strong>. Our team is reviewing your project requirements and will reach out with an indicative estimate and technical breakdown.</p>
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Your enquiry summary</p>
+${detailTable(summary)}
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">What happens next</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;">
+  <tr><td style="width:32px;padding:6px 0;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:${C.deepBlue};color:${C.gold};font-size:12px;font-weight:bold;line-height:22px;text-align:center;">1</span></td><td style="padding:6px 0;font-size:14px;color:${C.text};">We review your project requirements against our indicative pricing tiers.</td></tr>
+  <tr><td style="width:32px;padding:6px 0;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:${C.deepBlue};color:${C.gold};font-size:12px;font-weight:bold;line-height:22px;text-align:center;">2</span></td><td style="padding:6px 0;font-size:14px;color:${C.text};">A technical lead contacts you via email, phone, or WhatsApp to clarify specifics.</td></tr>
+  <tr><td style="width:32px;padding:6px 0;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:${C.deepBlue};color:${C.gold};font-size:12px;font-weight:bold;line-height:22px;text-align:center;">3</span></td><td style="padding:6px 0;font-size:14px;color:${C.text};">We present a tailored, fixed-price proposal with milestone schedule and delivery plan.</td></tr>
+</table>
+<p style="margin:0 0 16px;">Have urgent specifications to share? Simply reply directly to this email or call us at <strong>${escapeHtml(COMPANY_CONTACT.phoneDisplay)}</strong>.</p>
+<p style="margin:0;">Regards,<br><strong>The Anantorix team</strong></p>`,
+  });
+
+  const text = [
+    `Thank you, ${name}.`,
+    "",
+    `We have received your quote enquiry for ${serviceLabel}.`,
+    "",
+    "YOUR ENQUIRY SUMMARY",
+    ...summary.map((s) => `${s.label}: ${s.value}`),
+    "",
+    "WHAT HAPPENS NEXT",
+    "1. We review your project requirements against our indicative pricing tiers.",
+    "2. A technical lead contacts you via email, phone, or WhatsApp to clarify specifics.",
+    "3. We present a tailored, fixed-price proposal with milestone schedule and delivery plan.",
+    "",
+    `Have urgent questions? Contact us at ${COMPANY_CONTACT.email} or ${COMPANY_CONTACT.phoneDisplay}.`,
+    "",
+    "Regards,",
+    "The Anantorix team",
+    `${COMPANY_CONTACT.name}, ${COMPANY_CONTACT.locationDisplay}`,
+    `${COMPANY_CONTACT.email} | ${COMPANY_CONTACT.phoneDisplay} | ${SITE_URL}`,
+  ].join("\n");
+
+  return { subject: `Your quote enquiry for Anantorix Technologies (${ref})`, text, html };
+}
+
+// Received by Anantorix when someone submits a quote enquiry.
+export function quoteInternalNotification(r: QuoteRecord): EmailContent {
+  const ref = shortReference(r.id);
+  const serviceLabel = labelFor(QUOTE_SERVICES, r.service);
+  const budgetLabel = labelFor(quoteBudgetOptions(r.currency), r.budget);
+  const timelineLabel = labelFor(QUOTE_TIMELINES, r.timeline);
+
+  const contact = [
+    { label: "Name", value: r.name },
+    { label: "Company", value: r.company },
+    { label: "Email", value: r.email, html: `<a href="mailto:${escapeHtml(r.email)}" style="color:${C.purple};">${escapeHtml(r.email)}</a>` },
+    { label: "Phone / WhatsApp", value: r.phone, html: `<a href="tel:${escapeHtml(r.phone.replace(/[^\d+]/g, ""))}" style="color:${C.purple};">${escapeHtml(r.phone)}</a>` },
+  ];
+
+  const project = [
+    { label: "Service", value: serviceLabel },
+    { label: "Estimated budget", value: budgetLabel },
+    { label: "Expected timeline", value: timelineLabel },
+  ];
+
+  const source = [
+    { label: "Landing page", value: r.landingPage || "Not captured" },
+    { label: "Form page", value: r.sourcePage || "Not captured" },
+    { label: "Referrer", value: r.referrer || "Not captured" },
+    ...Object.entries(r.utm).map(([k, v]) => ({ label: `UTM ${k}`, value: v })),
+    { label: "Received", value: istTime(r.timestamp) },
+    { label: "Reference", value: `${ref} (${r.id})` },
+  ];
+
+  const callButton = r.phone ? button(`tel:${r.phone.replace(/[^\d+]/g, "")}`, "Call Client") : "";
+  const waButton = r.phone ? button(`https://wa.me/${r.phone.replace(/[^\d]/g, "")}`, "WhatsApp") : "";
+
+  const html = layout({
+    preheader: `New quote enquiry from ${r.name} (${r.company}) for ${serviceLabel} [${budgetLabel}]`,
+    eyebrow: `New quote enquiry · ${ref}`,
+    title: `${r.name} (${r.company})`,
+    body: `
+<p style="margin:0 0 18px;">${button(`mailto:${r.email}`, `Reply to ${firstName(r.name)}`)}${callButton}${waButton}</p>
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Contact Information</p>
+${detailTable(contact)}
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Project Scope & Budget</p>
+${detailTable(project)}
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Project Requirements</p>
+<div style="margin:0 0 20px;padding:16px;border-left:3px solid ${C.gold};background:${C.surface};border-radius:8px;font-size:14px;white-space:pre-wrap;color:${C.text};">${escapeHtml(r.requirements || "No details provided.")}</div>
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Attribution & Source</p>
+${detailTable(source)}`,
+  });
+
+  const text = [
+    `NEW QUOTE ENQUIRY (${ref})`,
+    "",
+    "CONTACT",
+    ...contact.map((c) => `${c.label}: ${c.value}`),
+    "",
+    "PROJECT",
+    ...project.map((p) => `${p.label}: ${p.value}`),
+    "",
+    "PROJECT REQUIREMENTS",
+    r.requirements || "No details provided.",
+    "",
+    "SOURCE & ATTRIBUTION",
+    ...source.map((s) => `${s.label}: ${s.value}`),
+  ].join("\n");
+
+  return { subject: `New Quote Enquiry: ${serviceLabel} · ${budgetLabel} (${ref})`, text, html };
+}
+
+// Sent to the person who submitted an SEO enquiry.
+export function seoConfirmation(r: SeoEnquiryRecord): EmailContent {
+  const name = firstName(r.name);
+  const ref = shortReference(r.id);
+  const packageLabel = labelFor(SEO_PACKAGES_OPTIONS, r.preferredPackage);
+  const budgetLabel = labelFor(SEO_BUDGET_OPTIONS, r.budget);
+
+  const summary = [
+    { label: "Website URL", value: r.websiteUrl },
+    { label: "Company", value: r.company },
+    { label: "Preferred package", value: packageLabel },
+    { label: "Monthly budget", value: budgetLabel },
+    { label: "Target location", value: r.targetLocation },
+    { label: "Reference", value: ref },
+  ];
+
+  const html = layout({
+    preheader: "We have received your SEO consultation request and will audit your website.",
+    eyebrow: "SEO consultation request received",
+    title: `Thank you, ${name}.`,
+    body: `
+<p style="margin:0 0 16px;">We have received your SEO enquiry for <strong>${escapeHtml(r.company)}</strong> (${escapeHtml(r.websiteUrl)}). Our search strategists are reviewing your website crawlability and target local keywords.</p>
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Your enquiry summary</p>
+${detailTable(summary)}
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">What happens next</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;">
+  <tr><td style="width:32px;padding:6px 0;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:${C.deepBlue};color:${C.gold};font-size:12px;font-weight:bold;line-height:22px;text-align:center;">1</span></td><td style="padding:6px 0;font-size:14px;color:${C.text};">We conduct an initial technical and on-page crawl of your website.</td></tr>
+  <tr><td style="width:32px;padding:6px 0;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:${C.deepBlue};color:${C.gold};font-size:12px;font-weight:bold;line-height:22px;text-align:center;">2</span></td><td style="padding:6px 0;font-size:14px;color:${C.text};">We evaluate search competition in ${escapeHtml(r.targetLocation || "your target markets")}.</td></tr>
+  <tr><td style="width:32px;padding:6px 0;vertical-align:top;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:${C.deepBlue};color:${C.gold};font-size:12px;font-weight:bold;line-height:22px;text-align:center;">3</span></td><td style="padding:6px 0;font-size:14px;color:${C.text};">We reach out via phone or WhatsApp to present our prioritized SEO roadmap and proposal.</td></tr>
+</table>
+<p style="margin:0 0 16px;">Have urgent questions? Reply directly to this email or call us at <strong>${escapeHtml(COMPANY_CONTACT.phoneDisplay)}</strong>.</p>
+<p style="margin:0;">Regards,<br><strong>The Anantorix SEO team</strong></p>`,
+  });
+
+  const text = [
+    `Thank you, ${name}.`,
+    "",
+    `We have received your SEO consultation request for ${r.company} (${r.websiteUrl}).`,
+    "",
+    "YOUR ENQUIRY SUMMARY",
+    ...summary.map((s) => `${s.label}: ${s.value}`),
+    "",
+    "WHAT HAPPENS NEXT",
+    "1. We conduct an initial technical and on-page crawl of your website.",
+    `2. We evaluate search competition in ${r.targetLocation || "your target markets"}.`,
+    "3. We reach out via phone or WhatsApp to present our prioritized SEO roadmap and proposal.",
+    "",
+    `Have urgent questions? Contact us at ${COMPANY_CONTACT.email} or ${COMPANY_CONTACT.phoneDisplay}.`,
+    "",
+    "Regards,",
+    "The Anantorix SEO team",
+    `${COMPANY_CONTACT.name}, ${COMPANY_CONTACT.locationDisplay}`,
+    `${COMPANY_CONTACT.email} | ${COMPANY_CONTACT.phoneDisplay} | ${SITE_URL}`,
+  ].join("\n");
+
+  return { subject: `Your SEO Consultation Request for Anantorix Technologies (${ref})`, text, html };
+}
+
+// Received by Anantorix when someone submits an SEO enquiry.
+export function seoInternalNotification(r: SeoEnquiryRecord): EmailContent {
+  const ref = shortReference(r.id);
+  const packageLabel = labelFor(SEO_PACKAGES_OPTIONS, r.preferredPackage);
+  const budgetLabel = labelFor(SEO_BUDGET_OPTIONS, r.budget);
+
+  const contact = [
+    { label: "Name", value: r.name },
+    { label: "Company", value: r.company },
+    { label: "Email", value: r.email, html: `<a href="mailto:${escapeHtml(r.email)}" style="color:${C.purple};">${escapeHtml(r.email)}</a>` },
+    { label: "Phone", value: r.phone, html: `<a href="tel:${escapeHtml(r.phone.replace(/[^\d+]/g, ""))}" style="color:${C.purple};">${escapeHtml(r.phone)}</a>` },
+    { label: "Website URL", value: r.websiteUrl, html: `<a href="${escapeHtml(r.websiteUrl.startsWith("http") ? r.websiteUrl : `https://${r.websiteUrl}`)}" target="_blank" rel="noopener noreferrer" style="color:${C.purple};">${escapeHtml(r.websiteUrl)}</a>` },
+  ];
+
+  const project = [
+    { label: "Industry", value: r.industry },
+    { label: "Target Location", value: r.targetLocation },
+    { label: "Preferred Package", value: packageLabel },
+    { label: "Monthly Budget", value: budgetLabel },
+  ];
+
+  const source = [
+    { label: "Landing page", value: r.landingPage || "Not captured" },
+    { label: "Form page", value: r.sourcePage || "Not captured" },
+    { label: "Referrer", value: r.referrer || "Not captured" },
+    ...Object.entries(r.utm).map(([k, v]) => ({ label: `UTM ${k}`, value: v })),
+    { label: "Received", value: istTime(r.timestamp) },
+    { label: "Reference", value: `${ref} (${r.id})` },
+  ];
+
+  const callButton = r.phone ? button(`tel:${r.phone.replace(/[^\d+]/g, "")}`, "Call Client") : "";
+  const waButton = r.phone ? button(`https://wa.me/${r.phone.replace(/[^\d]/g, "")}`, "WhatsApp") : "";
+
+  const html = layout({
+    preheader: `New SEO Enquiry from ${r.name} (${r.company}) for ${packageLabel} [${budgetLabel}]`,
+    eyebrow: `New SEO enquiry · ${ref}`,
+    title: `${r.name} (${r.company})`,
+    body: `
+<p style="margin:0 0 18px;">${button(`mailto:${r.email}`, `Reply to ${firstName(r.name)}`)}${callButton}${waButton}</p>
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Contact Information</p>
+${detailTable(contact)}
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">SEO Scope & Budget</p>
+${detailTable(project)}
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Current Challenges & Goals</p>
+<div style="margin:0 0 20px;padding:16px;border-left:3px solid ${C.gold};background:${C.surface};border-radius:8px;font-size:14px;white-space:pre-wrap;color:${C.text};">${escapeHtml(r.challenges || "No details provided.")}</div>
+<p style="margin:0 0 8px;font-size:13px;font-weight:bold;color:${C.text};">Attribution & Source</p>
+${detailTable(source)}`,
+  });
+
+  const text = [
+    `NEW SEO ENQUIRY (${ref})`,
+    "",
+    "CONTACT",
+    ...contact.map((c) => `${c.label}: ${c.value}`),
+    "",
+    "SEO SCOPE & TARGETS",
+    ...project.map((p) => `${p.label}: ${p.value}`),
+    "",
+    "CHALLENGES & GOALS",
+    r.challenges || "No details provided.",
+    "",
+    "SOURCE & ATTRIBUTION",
+    ...source.map((s) => `${s.label}: ${s.value}`),
+  ].join("\n");
+
+  return { subject: `New SEO Enquiry: ${r.company} · ${packageLabel} (${ref})`, text, html };
 }

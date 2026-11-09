@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Container from "../../layout/Container";
 import Grid from "../../layout/Grid";
 import Section from "../../layout/Section";
@@ -112,10 +113,18 @@ export default function AgentPageTemplate({ agent }: { agent: AgentDef }) {
         </Container>
       </Section>
 
-      {/* 9. Pricing approach (no prices shown) */}
+      {/* 9. Pricing approach */}
       <Section tone="surface2" labelledBy={`${agent.slug}-pricing`}>
         <Container>
-          <SectionHeading id={`${agent.slug}-pricing`} eyebrow="Pricing" title="Priced for your workflow." lead={pricingApproach} />
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <SectionHeading id={`${agent.slug}-pricing`} eyebrow="Pricing & Investment" title="Priced for your workflow." lead={pricingApproach} />
+            <Link
+              href="/pricing#ai-automation"
+              className="inline-flex items-center gap-1.5 type-small font-semibold text-deep-blue hover:text-indigo hover:underline shrink-0"
+            >
+              Explore AI Pricing Guide →
+            </Link>
+          </div>
         </Container>
       </Section>
 

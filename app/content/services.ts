@@ -36,6 +36,16 @@ export type ServiceDef = {
   agentLinks?: { label: string; href: string }[];
   // Optional extra FAQ entry specific to the service.
   extraFaq?: { q: string; a: string };
+  // Indicative pricing and packages for transparent conversion.
+  pricingOverview?: {
+    eyebrow?: string;
+    title: string;
+    lead: string;
+    tiers: { name: string; range: string; note: string }[];
+    disclaimer?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
 };
 
 export const services: ServiceDef[] = [
@@ -99,6 +109,20 @@ export const services: ServiceDef[] = [
     ],
     related: ["ai-automation", "business-analytics", "custom-software-development"],
     agentLinks: [{ label: "AI Agents", href: "/ai-agents" }],
+        pricingOverview: {
+      eyebrow: "Indicative AI Investment",
+      title: "AI Implementation Packages & Engagement Pricing",
+      lead: "Practical AI assistants and intelligent workflow automations engineered to solve specific operational bottlenecks. Third-party model API charges are separate unless specified.",
+      tiers: [
+        { name: "AI Chatbot Integration", range: "₹20,000–₹35,000", note: "Grounded on company FAQs, 24/7 web chat, lead capture & triage." },
+        { name: "AI Customer Support", range: "₹30,000–₹60,000", note: "Ticket classification, WhatsApp/web deployment, order status lookups." },
+        { name: "AI Lead Automation", range: "₹25,000–₹50,000", note: "Inbound triage, qualification questioning, CRM pipeline routing." },
+        { name: "Custom AI Assistant", range: "₹50,000–₹1,50,000+", note: "Multi-step autonomous task execution, document extraction, internal system querying." },
+      ],
+      disclaimer: "All prices are indicative and subject to technical scope. Third-party LLM API and compute fees are billed to your account.",
+      ctaLabel: "View All AI Pricing & Modules",
+      ctaHref: "/pricing#ai-automation",
+    },
     extraFaq: {
       q: "How is AI used with my data?",
       a: "We design AI systems around the data boundaries you set, and agree access rules before any system uses your data.",
@@ -283,6 +307,19 @@ export const services: ServiceDef[] = [
       { title: "Migration without loss", body: "Checks at every step so history and open deals come across intact." },
     ],
     related: ["business-analytics", "custom-software-development", "web-application-development"],
+        pricingOverview: {
+      eyebrow: "Indicative CRM Investment",
+      title: "CRM Development Tiers & Implementation Packages",
+      lead: "Indicative investment for custom sales pipelines, customer databases, and multichannel conversation management.",
+      tiers: [
+        { name: "Starter Business System", range: "₹75,000–₹90,000", note: "Lead tracking, customer database, visual pipeline, quotation generation, and email alerts." },
+        { name: "Professional Business System", range: "₹90,000–₹1,20,000", note: "WhatsApp integration, multi-stage pipelines, customer self-service portal, and executive reports." },
+        { name: "Advanced Enterprise System", range: "₹1,20,000–₹1,50,000+", note: "Custom approval workflows, automated lead distribution, ERP sync, and role permissions." },
+      ],
+      disclaimer: "All prices are indicative and subject to exact feature requirements and migration scope.",
+      ctaLabel: "Explore CRM & ERP Pricing",
+      ctaHref: "/pricing#crm-erp-development",
+    },
     agentLinks: [
       { label: "CRM AI Agent", href: "/ai-agents/crm-ai-agent" },
       { label: "Sales AI Agent", href: "/ai-agents/sales-ai-agent" },
@@ -346,6 +383,19 @@ export const services: ServiceDef[] = [
       { title: "Works with your accounts", body: "Integrated with the accounting system you already use." },
       { title: "Modernisation in stages", body: "Keep what works and replace what doesn't, one part at a time." },
     ],
+        pricingOverview: {
+      eyebrow: "Indicative ERP Investment",
+      title: "Modular ERP Software Investment Packages",
+      lead: "Modular business software connecting inventory, orders, purchase requisitions, and accounting integration.",
+      tiers: [
+        { name: "Starter Business System", range: "₹75,000–₹90,000", note: "Single-workflow operational tool, inventory or billing system replacing manual spreadsheets." },
+        { name: "Professional Business System", range: "₹90,000–₹1,20,000", note: "Integrated inventory, purchase and sales, GST invoicing, and operational reporting." },
+        { name: "Advanced Enterprise System", range: "₹1,20,000–₹1,50,000+", note: "End-to-end ERP modular suite, multi-location stock, accounting sync, and role-based audit." },
+      ],
+      disclaimer: "All prices are indicative. Scope and module count are finalized in the formal proposal.",
+      ctaLabel: "Explore ERP Pricing Breakdown",
+      ctaHref: "/pricing#crm-erp-development",
+    },
     related: ["business-analytics", "ai-automation", "desktop-application-development"],
   },
   {
@@ -439,16 +489,14 @@ export const services: ServiceDef[] = [
       { title: "Operations dashboards", body: "Live queues and status for the team on shift." },
     ],
     unique: {
-      kind: "list",
-      title: "Types of business web applications",
-      intro: "Most business web applications fall into one of these families. We often combine two or three.",
-      items: [
-        { title: "Portals", body: "Secure access for customers, partners or suppliers." },
-        { title: "Dashboards", body: "Live operational views for managers." },
-        { title: "Booking", body: "Scheduling with availability and reminders." },
-        { title: "E-commerce", body: "Catalogue, cart and order management." },
-        { title: "Internal tools", body: "Workflows and records for your own team." },
-        { title: "PWAs and APIs", body: "Installable web apps and the interfaces behind them." },
+      kind: "comparison",
+      title: "Websites vs. Web Applications: Choosing the Right Solution",
+      intro: "A website introduces your business and captures leads; a web application runs your transactions, user accounts, and daily operations.",
+      rows: [
+        { aspect: "Primary Focus", custom: "Interactive workflows, data entry, user roles & customer portals (Web App)", offTheShelf: "Brand presentation, product catalogues, SEO & lead capture (Website)" },
+        { aspect: "User Experience", custom: "Logged-in users, role-based dashboards, and transactional tasks", offTheShelf: "Content consumption, mobile responsiveness, and click-to-contact" },
+        { aspect: "Technical Architecture", custom: "Full-stack databases, secure authentication, API webhooks & CRUD logic", offTheShelf: "Static or SSR pages, schema markup, performance optimization & forms" },
+        { aspect: "Indicative Investment", custom: "Custom-scoped from ₹75,000+ depending on module complexity", offTheShelf: "₹25,000–₹30,000 (Business), ₹30,000–₹40,000 (Pro), ₹40,000–₹50,000+ (Premium)" },
       ],
     },
     delivery: {
@@ -462,6 +510,20 @@ export const services: ServiceDef[] = [
       { title: "Secure by design", body: "Access rules and data boundaries planned from the start." },
       { title: "Grows with you", body: "Architecture planned so new features don't need a rewrite." },
     ],
+        pricingOverview: {
+      eyebrow: "Web & Application Investment",
+      title: "Websites & Custom Web Application Pricing",
+      lead: "Whether you need a high-conversion marketing website or a full-scale operational web application, we offer transparent indicative tiers.",
+      tiers: [
+        { name: "Business Website", range: "₹25,000–₹30,000", note: "Up to 5 pages, responsive design, lead forms, WhatsApp chat, and SEO-friendly structure." },
+        { name: "Professional Website", range: "₹30,000–₹40,000", note: "Up to 10 pages, rich interactive components, service catalogues, and analytics setup." },
+        { name: "Premium Website", range: "₹40,000–₹50,000+", note: "15+ custom layouts, advanced triage, speed optimization, and bespoke UI animations." },
+        { name: "Custom Web Application", range: "₹75,000+", note: "Customer & partner portals, booking systems, dashboards, and internal tools." },
+      ],
+      disclaimer: "Hosting, domain, and paid third-party APIs are separate unless included in the proposal.",
+      ctaLabel: "View Complete Website & App Pricing",
+      ctaHref: "/pricing#website-development",
+    },
     related: ["saas-development", "ui-ux-design", "mobile-app-development"],
   },
   {
@@ -773,6 +835,8 @@ export const liveRoutes = new Set<string>([
   "/ai-agents/sales-ai-agent",
   "/ai-agents/crm-ai-agent",
   "/ai-agents/business-ai-agent",
+  "/pricing",
+  "/seo-services",
   ...serviceSlugs.map((slug) => `/services/${slug}`),
 ]);
 

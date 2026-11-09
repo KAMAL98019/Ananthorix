@@ -1,11 +1,10 @@
 import { randomUUID } from "node:crypto";
-import type { LeadInput, LeadRecord } from "./schema";
+import type { LeadInput, LeadRecord, QuoteInput, QuoteRecord } from "./schema";
+import type { SeoEnquiryInput, SeoEnquiryRecord } from "./seoSchema";
 
-// Lead delivery abstraction. The live implementation is email via Nodemailer (mail.ts): the brief goes to the
-// company inbox and a confirmation goes to the visitor. submit() must throw if the lead was not delivered, so the
-// endpoint never reports success for an undelivered lead. There is no logging-only fallback.
-export interface LeadSubmissionService {
-  submit(record: LeadRecord): Promise<void>;
+// Lead, quote and SEO delivery abstraction.
+export interface LeadSubmissionService<T = LeadRecord> {
+  submit(record: T): Promise<void>;
 }
 
 export function buildLeadRecord(input: LeadInput): LeadRecord {
@@ -33,5 +32,50 @@ export function buildLeadRecord(input: LeadInput): LeadRecord {
     utm: input.utm,
     contextService: input.contextService,
     contextAgent: input.contextAgent,
+  };
+}
+
+export function buildQuoteRecord(input: QuoteInput): QuoteRecord {
+  return {
+    id: randomUUID(),
+    formType: "quote-enquiry",
+    timestamp: new Date().toISOString(),
+    name: input.name,
+    company: input.company,
+    email: input.email,
+    phone: input.phone,
+    service: input.service,
+    budget: input.budget,
+    currency: input.currency,
+    timeline: input.timeline,
+    requirements: input.requirements,
+    market: "India",
+    sourcePage: input.sourcePage,
+    landingPage: input.landingPage,
+    referrer: input.referrer,
+    utm: input.utm,
+  };
+}
+
+export function buildSeoRecord(input: SeoEnquiryInput): SeoEnquiryRecord {
+  return {
+    id: randomUUID(),
+    formType: "seo-enquiry",
+    timestamp: new Date().toISOString(),
+    name: input.name,
+    company: input.company,
+    email: input.email,
+    phone: input.phone,
+    websiteUrl: input.websiteUrl,
+    industry: input.industry,
+    targetLocation: input.targetLocation,
+    challenges: input.challenges,
+    preferredPackage: input.preferredPackage,
+    budget: input.budget,
+    market: "India",
+    sourcePage: input.sourcePage,
+    landingPage: input.landingPage,
+    referrer: input.referrer,
+    utm: input.utm,
   };
 }
