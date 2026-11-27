@@ -256,7 +256,14 @@ function serviceJsonLd(service: ServiceDef) {
     serviceType: service.metaTitle,
     url: `${SITE_URL}/services/${service.slug}`,
     provider: { "@type": "Organization", "@id": ORGANIZATION_ID, name: SITE_NAME, url: SITE_URL },
-    areaServed: ["India"],
+    // Home state and priority cities first, then the national market.
+    areaServed: [
+      { "@type": "City", name: "Salem" },
+      { "@type": "City", name: "Namakkal" },
+      { "@type": "City", name: "Erode" },
+      { "@type": "State", name: "Tamil Nadu" },
+      { "@type": "Country", name: "India" },
+    ],
   };
 }
 

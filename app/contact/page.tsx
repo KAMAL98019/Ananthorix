@@ -10,8 +10,8 @@ import { COMPANY_CONTACT } from "../content/contact";
 import { breadcrumbJsonLd, pageMetadata } from "../lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact",
-  description: "Contact Anantorix Technologies by email or phone, or share your project brief.",
+  title: "Contact Us: Tiruchengode, Tamil Nadu",
+  description: "Contact Anantorix Technologies in Tiruchengode, Tamil Nadu by phone or email, or share your project brief. Calls in English or Tamil.",
   path: "/contact",
 });
 

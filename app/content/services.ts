@@ -2,6 +2,8 @@
 // Copy is draft until approved by Anantorix. No client names, metrics, testimonials or guarantees.
 // Routes are confirmed in the V2 specification. Do not add alternative URLs for these services.
 
+import { AI_AUTOMATION_PRICING, CRM_ERP_PRICING, type PricingCategory } from "./pricing";
+
 export type UniqueSection =
   | { kind: "list"; title: string; intro: string; items: { title: string; body: string }[] }
   | { kind: "beforeAfter"; title: string; intro: string; before: string[]; after: string[] }
@@ -873,12 +875,50 @@ export const serviceFamilies: {
   },
 ];
 
-// Generic FAQ, written so it applies to every service. Service name is inserted where useful.
+// Services whose indicative price bands are published on /pricing. Amounts are read from the pricing content,
+// so the FAQ cannot drift from it. Services not listed here have no published band and get a scoped-quote answer.
+const PRICED_SERVICES: Record<string, PricingCategory> = {
+  "crm-development": CRM_ERP_PRICING,
+  "erp-software-development": CRM_ERP_PRICING,
+  "ai-solutions": AI_AUTOMATION_PRICING,
+  "ai-automation": AI_AUTOMATION_PRICING,
+};
+
+// How each service is named in a buyer's cost question ("How much does ... cost in India?").
+const COST_SUBJECT: Record<string, string> = {
+  "ai-solutions": "AI solution development",
+  "ai-automation": "AI automation",
+  "business-analytics": "a business dashboard",
+  "crm-development": "custom CRM development",
+  "erp-software-development": "ERP software development",
+  "custom-software-development": "custom software development",
+  "web-application-development": "a web application",
+  "mobile-app-development": "a mobile app",
+  "saas-development": "SaaS product development",
+  "desktop-application-development": "desktop software development",
+  "ui-ux-design": "UI/UX design",
+  "mvp-development": "an MVP",
+};
+
+const costSubject = (service: ServiceDef) => COST_SUBJECT[service.slug] ?? service.metaTitle.toLowerCase();
+
+function costAnswer(service: ServiceDef): string {
+  const category = PRICED_SERVICES[service.slug];
+  if (!category) {
+    const subject = costSubject(service);
+    return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} is quoted per project, because scope varies widely. After a short discovery call you get a fixed-price proposal with milestones. Indicative bands for websites, CRM and ERP systems and AI automation are on our pricing page.`;
+  }
+  const from = category.tiers[0].price.split("–")[0];
+  const top = category.tiers[category.tiers.length - 1].price;
+  return `Our ${category.title} packages start from ${from}, excluding GST. The largest tier is ${top}. The pricing page lists what each tier includes, and you get a fixed-price proposal after discovery.`;
+}
+
+// Shared FAQ. The cost question is answered per service; the rest applies to every service.
 export function faqFor(service: ServiceDef): { q: string; a: string }[] {
   const items = [
     {
-      q: "How much does it cost?",
-      a: "We scope each project based on requirements. If you have a budget range, you can share it during the project enquiry.",
+      q: `How much does ${costSubject(service)} cost in India?`,
+      a: costAnswer(service),
     },
     {
       q: "How long does it take?",
@@ -897,8 +937,8 @@ export function faqFor(service: ServiceDef): { q: string; a: string }[] {
       a: "Ongoing support is available as an engagement model. Support scope is agreed per project.",
     },
     {
-      q: "Can you work with businesses outside India?",
-      a: "Anantorix is currently focused on businesses across India. Tell us where your business is based in your brief and we will confirm whether we can work with you.",
+      q: "Where is Anantorix based, and who do you work with?",
+      a: "Anantorix is based in Tiruchengode, Namakkal district, Tamil Nadu. We work with businesses across Tamil Nadu and the rest of India, with project calls in English or Tamil. If your business is outside India, mention it in your brief and we will confirm whether we can help.",
     },
   ];
   if (service.extraFaq) items.splice(3, 0, service.extraFaq);

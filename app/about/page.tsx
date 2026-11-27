@@ -17,7 +17,7 @@ import { breadcrumbJsonLd, pageMetadata, POSITIONING } from "../lib/seo";
 // Company page. Only verified facts: the name's meaning, location, focus market, services, real client
 // projects and how we work. No team, founding year, client counts or metrics until Anantorix approves them.
 export const metadata: Metadata = pageMetadata({
-  title: "About",
+  title: "About: Software & AI Company in Tamil Nadu",
   description: "Anantorix Technologies builds intelligent digital systems for businesses across India, from Tiruchengode, Tamil Nadu.",
   path: "/about",
 });

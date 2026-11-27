@@ -1,0 +1,38 @@
+# Anantorix Technologies
+
+> Anantorix Technologies is a software and AI development company based in Tiruchengode, Namakkal district, Tamil Nadu, India. It builds custom software, web and mobile applications, CRM and ERP systems, business dashboards, AI solutions, AI automation and AI agents for businesses across Tamil Nadu and India. Calls are available in English and Tamil.
+
+Contact: info@anantorix.com, +91 98427 44566. Website: https://www.anantorix.com/
+
+## Services
+
+- [All services](https://www.anantorix.com/services): overview of every service
+- [AI solutions](https://www.anantorix.com/services/ai-solutions): AI readiness, pilots, assistants and AI features in existing software
+- [AI automation](https://www.anantorix.com/services/ai-automation): document processing, enquiry triage, reports and approvals
+- [CRM development](https://www.anantorix.com/services/crm-development): custom CRM with WhatsApp and email integration
+- [ERP software development](https://www.anantorix.com/services/erp-software-development): inventory, purchase, sales, production and billing
+- [Custom software development](https://www.anantorix.com/services/custom-software-development)
+- [Web application development](https://www.anantorix.com/services/web-application-development): portals, booking systems, e-commerce and internal tools
+- [Mobile app development](https://www.anantorix.com/services/mobile-app-development): iOS and Android apps
+- [Business analytics and dashboards](https://www.anantorix.com/services/business-analytics)
+- [SaaS development](https://www.anantorix.com/services/saas-development)
+- [Desktop application development](https://www.anantorix.com/services/desktop-application-development): billing, POS and offline-first software
+- [UI/UX design](https://www.anantorix.com/services/ui-ux-design)
+- [MVP development](https://www.anantorix.com/services/mvp-development)
+- [SEO services](https://www.anantorix.com/seo-services): SEO for businesses in Namakkal, Salem and Erode
+
+## AI agents
+
+- [AI agents overview](https://www.anantorix.com/ai-agents)
+- [Sales AI agent](https://www.anantorix.com/ai-agents/sales-ai-agent)
+- [CRM AI agent](https://www.anantorix.com/ai-agents/crm-ai-agent)
+- [Business AI agent](https://www.anantorix.com/ai-agents/business-ai-agent)
+
+## Company
+
+- [Pricing](https://www.anantorix.com/pricing): indicative price bands in INR, excluding GST
+- [About](https://www.anantorix.com/about)
+- [How we work](https://www.anantorix.com/how-we-work)
+- [Security and data](https://www.anantorix.com/security-and-data)
+- [Contact](https://www.anantorix.com/contact)
+- [Start a project](https://www.anantorix.com/start-a-project)
