@@ -7,7 +7,8 @@ import { AI_AUTOMATION_PRICING, CRM_ERP_PRICING, type PricingCategory } from "./
 export type UniqueSection =
   | { kind: "list"; title: string; intro: string; items: { title: string; body: string }[] }
   | { kind: "beforeAfter"; title: string; intro: string; before: string[]; after: string[] }
-  | { kind: "comparison"; title: string; intro: string; rows: { aspect: string; custom: string; offTheShelf: string }[] }
+  // labels: column headings, highlighted option first. Row fields keep their original names: custom = first column.
+  | { kind: "comparison"; title: string; intro: string; labels: [string, string]; rows: { aspect: string; custom: string; offTheShelf: string }[] }
   | { kind: "dashboard"; title: string; intro: string; panels: { label: string; bars: number[] }[] }
   | { kind: "lifecycle"; title: string; intro: string; stages: { name: string; body: string }[] };
 
@@ -288,14 +289,21 @@ export const services: ServiceDef[] = [
     ],
     unique: {
       kind: "comparison",
-      title: "Custom CRM or off-the-shelf?",
-      intro: "Off-the-shelf CRMs are a good fit for common processes. A custom CRM is a better fit when your process is part of your advantage.",
+      title: "Custom CRM or an off-the-shelf CRM like Zoho or HubSpot?",
+      intro: "Off-the-shelf CRMs such as Zoho CRM and HubSpot are a good fit for common sales processes and teams that need to start this week. A custom CRM is a better fit when your process is part of your advantage, or when the CRM must work closely with your billing, stock or WhatsApp conversations.",
+      labels: ["Custom CRM", "Off-the-shelf (Zoho CRM, HubSpot and similar)"],
       rows: [
+        { aspect: "Time to start", custom: "Weeks: discovery, build and migration come first", offTheShelf: "Days: sign up and configure" },
         { aspect: "Fit to your process", custom: "Built around your stages and rules", offTheShelf: "Adapted to the vendor's model" },
-        { aspect: "Integrations", custom: "Connected to the tools you use", offTheShelf: "Depends on available connectors" },
-        { aspect: "Changes over time", custom: "Changed as your business changes", offTheShelf: "Limited to vendor roadmap" },
-        { aspect: "Cost profile", custom: "Scoped to your requirements", offTheShelf: "Per-user subscription" },
+        { aspect: "Integrations", custom: "Connected to the tools you use, including in-house billing or ERP", offTheShelf: "Depends on available connectors and plan level" },
+        { aspect: "Changes over time", custom: "Changed as your business changes", offTheShelf: "Limited to the vendor's roadmap" },
+        { aspect: "Cost profile", custom: "One-time build from ₹75,000, plus optional maintenance", offTheShelf: "Per-user subscription that grows with your team" },
+        { aspect: "Data and code", custom: "Ownership of the code and data agreed in writing before work begins", offTheShelf: "Your data, on the vendor's platform" },
       ],
+    },
+    extraFaq: {
+      q: "Can a custom CRM work with WhatsApp?",
+      a: "Yes. WhatsApp integration is part of the Professional Business System tier (₹90,000–₹1,20,000): customer messages are linked to the right record, so the team sees the whole conversation and can set follow-ups from the CRM.",
     },
     delivery: {
       discover: ["Sales process map", "Current data and systems review", "Migration risks identified"],
@@ -494,6 +502,7 @@ export const services: ServiceDef[] = [
       kind: "comparison",
       title: "Websites vs. Web Applications: Choosing the Right Solution",
       intro: "A website introduces your business and captures leads; a web application runs your transactions, user accounts, and daily operations.",
+      labels: ["Web application", "Website"],
       rows: [
         { aspect: "Primary Focus", custom: "Interactive workflows, data entry, user roles & customer portals (Web App)", offTheShelf: "Brand presentation, product catalogues, SEO & lead capture (Website)" },
         { aspect: "User Experience", custom: "Logged-in users, role-based dashboards, and transactional tasks", offTheShelf: "Content consumption, mobile responsiveness, and click-to-contact" },
@@ -678,15 +687,22 @@ export const services: ServiceDef[] = [
       { title: "Warehouse operations", body: "Scanning and stock movement with offline resilience." },
     ],
     unique: {
-      kind: "list",
-      title: "When desktop software is the right choice",
-      intro: "Desktop is the right interface when the work depends on local hardware, offline operation or heavy local data.",
-      items: [
-        { title: "Offline is essential", body: "Work continues without a connection, then syncs." },
-        { title: "Hardware is central", body: "Printers, scanners and readers are part of the process." },
-        { title: "Speed matters at the counter", body: "Local processing keeps transactions fast." },
-        { title: "Data stays local", body: "Some businesses need local control over their records." },
+      kind: "comparison",
+      title: "Desktop software or a web application?",
+      intro: "Choose desktop when the work depends on local hardware, offline operation or heavy local data, as at a billing counter. Choose a web application when people need access from many places and you want updates to reach everyone at once. Many businesses run both: desktop at the counter, web for owners and branches.",
+      labels: ["Desktop application", "Web application"],
+      rows: [
+        { aspect: "Without internet", custom: "Keeps working, then syncs when the connection returns", offTheShelf: "Needs a connection (limited offline modes are possible)" },
+        { aspect: "Printers, scanners, weighing scales", custom: "Direct, reliable hardware integration", offTheShelf: "Possible, but browser support for devices is limited" },
+        { aspect: "Speed at the counter", custom: "Local processing keeps each bill fast at peak hours", offTheShelf: "Depends on network speed" },
+        { aspect: "Access from anywhere", custom: "On the installed machines only, unless paired with a web dashboard", offTheShelf: "Any browser, any location" },
+        { aspect: "Updates", custom: "Installed on each machine (can be automated)", offTheShelf: "Deployed once, available to everyone immediately" },
+        { aspect: "Typical uses", custom: "Retail billing and POS, shop-floor terminals, lab and clinic stations", offTheShelf: "Customer portals, multi-branch reporting, booking systems" },
       ],
+    },
+    extraFaq: {
+      q: "Do you build billing and POS software?",
+      a: "Yes. Billing and point-of-sale software is one of the most common desktop builds: fast counter billing, receipt and barcode printing, stock updates on every sale and daily sales reports, with offline operation that syncs when the connection returns.",
     },
     delivery: {
       discover: ["Workflow and hardware review", "Offline requirements", "Migration risks"],

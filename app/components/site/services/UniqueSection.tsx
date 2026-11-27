@@ -3,6 +3,7 @@ import Grid from "../../layout/Grid";
 import Section from "../../layout/Section";
 import SectionHeading from "../blocks/SectionHeading";
 import Card from "../../ui/Card";
+import ComparisonTable from "../blocks/ComparisonTable";
 import type { ServiceDef, UniqueSection as UniqueData } from "../../../content/services";
 
 // The per-service section. Five presentation kinds, chosen by the content record.
@@ -64,27 +65,11 @@ function renderKind(data: UniqueData) {
 
     case "comparison":
       return (
-        <div className="overflow-x-auto rounded-card border border-line bg-canvas shadow-raised">
-          <table className="w-full min-w-[560px] border-collapse text-left type-small">
-            <caption className="sr-only">Custom CRM compared with off-the-shelf CRM</caption>
-            <thead>
-              <tr className="border-b border-line">
-                <th scope="col" className="p-4 font-semibold text-fg-primary">Aspect</th>
-                <th scope="col" className="p-4 font-semibold text-deep-blue">Custom CRM</th>
-                <th scope="col" className="p-4 font-semibold text-fg-secondary">Off-the-shelf</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.rows.map((row) => (
-                <tr key={row.aspect} className="border-b border-line last:border-0">
-                  <th scope="row" className="p-4 font-semibold text-fg-primary">{row.aspect}</th>
-                  <td className="p-4 text-fg-primary">{row.custom}</td>
-                  <td className="p-4 text-fg-secondary">{row.offTheShelf}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ComparisonTable
+          caption={`${data.labels[0]} compared with ${data.labels[1]}`}
+          labels={data.labels}
+          rows={data.rows.map((row) => ({ aspect: row.aspect, first: row.custom, second: row.offTheShelf }))}
+        />
       );
 
     case "dashboard":

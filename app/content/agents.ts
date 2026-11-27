@@ -28,6 +28,14 @@ export type AgentDef = {
   example: { title: string; transcript: { speaker: string; text: string }[] };
   setupSteps: { title: string; summary: string; deliverables: string[] }[];
   faq: AgentFaq[];
+  // Optional definition + comparison block, shown after the problem section.
+  explainer?: {
+    title: string;
+    definition: string;
+    comparisonIntro: string;
+    labels: [string, string];
+    rows: { aspect: string; first: string; second: string }[];
+  };
   // Services this agent connects to. Only live routes are rendered.
   relatedServices: { label: string; href: string }[];
 };
@@ -183,7 +191,25 @@ export const agents: AgentDef[] = [
       { q: "Can it follow our sales process?", a: "Yes. The stages, fields, risk signals and follow-up rules are configured to match how your team sells." },
       { q: "What support is there after launch?", a: "Ongoing support and improvements are available as an engagement model, and the scope is agreed per project." },
       { q: "How is it priced?", a: pricingApproach },
+      { q: "What is the difference between a CRM AI agent and CRM automation?", a: "CRM automation follows fixed rules, such as sending a set email when a deal changes stage. A CRM AI agent reads the customer history, decides what needs attention, and drafts a follow-up that fits the conversation, asking a person before any key change." },
+      { q: "Do we need a new CRM to use the CRM AI Agent?", a: "Not necessarily. It connects to the CRM you already run when that CRM allows access to its data. If your customers live in spreadsheets, we can build a CRM first through our CRM development service." },
+      { q: "Can the CRM AI Agent work with WhatsApp?", a: "Yes. WhatsApp is one of the channels it can work with, so customer conversations can inform summaries and follow-ups. Messages that commit the business to terms still need your approval before they are sent." },
+      { q: "Is a CRM AI agent useful for a small sales team?", a: "Yes. It suits small teams most, because it takes over routine CRM work, such as summaries, reminders and record updates, that a few people cannot keep up with alongside selling." },
     ],
+    explainer: {
+      title: "What is a CRM AI agent?",
+      definition: "A CRM AI agent is software that works inside your CRM like an assistant. It reads customer history, decides who needs attention today, drafts follow-ups and updates routine records within rules you set. Unlike fixed CRM automation, it can handle varied situations, and it asks a person before any key change.",
+      comparisonIntro: "Most CRMs already offer rule-based automation. Here is how an AI agent differs, and when each one fits.",
+      labels: ["CRM AI agent", "CRM automation (rules and workflows)"],
+      rows: [
+        { aspect: "How it decides", first: "Reads the account history and recent messages, then judges what matters", second: "Follows fixed if-this-then-that rules" },
+        { aspect: "Follow-ups", first: "Drafts a message that fits each conversation, ready for review", second: "Sends the same template every time" },
+        { aspect: "Prioritising leads", first: "Ranks today's leads by urgency and likely value", second: "Sorts by the fields you choose" },
+        { aspect: "Unusual situations", first: "Flags them to the owner with the reasons", second: "Does nothing unless a rule matches" },
+        { aspect: "Human control", first: "Approval required for key changes and commitments", second: "Runs automatically once set up" },
+        { aspect: "Best for", first: "Varied conversations and judgement calls", second: "Repetitive, predictable steps" },
+      ],
+    },
     relatedServices: [
       { label: "CRM Development", href: "/services/crm-development" },
       { label: "Business Analytics", href: "/services/business-analytics" },

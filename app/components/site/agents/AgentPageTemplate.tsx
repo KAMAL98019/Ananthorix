@@ -4,6 +4,7 @@ import Grid from "../../layout/Grid";
 import Section from "../../layout/Section";
 import SectionHeading from "../blocks/SectionHeading";
 import Breadcrumbs from "../blocks/Breadcrumbs";
+import ComparisonTable from "../blocks/ComparisonTable";
 import CtaBand from "../blocks/CtaBand";
 import FaqList from "../blocks/FaqList";
 import JsonLd from "../blocks/JsonLd";
@@ -48,6 +49,28 @@ export default function AgentPageTemplate({ agent }: { agent: AgentDef }) {
           <SectionHeading id={`${agent.slug}-problem`} eyebrow="The problem" title="Where time and leads get lost." lead={agent.problem} />
         </Container>
       </Section>
+
+      {/* 2b. Optional definition and comparison, for agents people search for by concept */}
+      {agent.explainer && (
+        <Section tone="surface2" labelledBy={`${agent.slug}-explainer`}>
+          <Container>
+            <SectionHeading
+              id={`${agent.slug}-explainer`}
+              eyebrow="In plain words"
+              title={agent.explainer.title}
+              lead={agent.explainer.definition}
+            />
+            <div className="mt-12">
+              <p className="type-body mb-6 max-w-3xl text-fg-secondary">{agent.explainer.comparisonIntro}</p>
+              <ComparisonTable
+                caption={`${agent.explainer.labels[0]} compared with ${agent.explainer.labels[1]}`}
+                labels={agent.explainer.labels}
+                rows={agent.explainer.rows}
+              />
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* 3. What it does */}
       <Section labelledBy={`${agent.slug}-jobs`}>
