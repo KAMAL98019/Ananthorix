@@ -407,6 +407,7 @@ export const services: ServiceDef[] = [
       ctaHref: "/pricing#crm-erp-development",
     },
     related: ["business-analytics", "ai-automation", "desktop-application-development"],
+    agentLinks: [{ label: "Poultry Farm Software", href: "/industries/poultry-software" }],
   },
   {
     slug: "custom-software-development",
@@ -855,6 +856,7 @@ export const liveRoutes = new Set<string>([
   "/ai-agents/business-ai-agent",
   "/pricing",
   "/seo-services",
+  "/industries/poultry-software",
   ...serviceSlugs.map((slug) => `/services/${slug}`),
 ]);
 

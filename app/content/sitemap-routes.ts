@@ -4,7 +4,7 @@
 // Deliberately excluded:
 // - /start-a-project/thank-you (non-indexable)
 // - /industries, /insights, /careers (Phase 2 hidden / P2)
-// - /industries, /projects, /markets until built
+// - /industries hub, /projects, /markets until built (/industries/poultry-software is live)
 // - redirected legacy URLs (/services/custom-software, /services/mobile-apps, /services/desktop-application)
 
 export type SitemapRoute = {
@@ -30,6 +30,7 @@ export const indexableRoutes: SitemapRoute[] = [
   { path: "/services/desktop-application-development", priority: 0.8, changeFrequency: "monthly" },
   { path: "/services/ui-ux-design", priority: 0.7, changeFrequency: "monthly" },
   { path: "/services/mvp-development", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/industries/poultry-software", priority: 0.8, changeFrequency: "monthly" },
   { path: "/ai-agents", priority: 0.9, changeFrequency: "monthly" },
   { path: "/ai-agents/sales-ai-agent", priority: 0.8, changeFrequency: "monthly" },
   { path: "/ai-agents/crm-ai-agent", priority: 0.8, changeFrequency: "monthly" },
